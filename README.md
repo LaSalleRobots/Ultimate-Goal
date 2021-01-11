@@ -13,6 +13,8 @@ If you have issues or features requests please submit a github issue so we can l
 - [FTC JAVA DOC](https://first-tech-challenge.github.io/FtcRobotController/)
   - Please use the version `v6.1`
 - [Our Documentation](https://github.com/LaSalleRobots/Ultimate-Goal/tree/master/Docs)
+  - [EasyOpenCV](https://github.com/LaSalleRobots/Ultimate-Goal/tree/master/Docs/EasyOpenCV)
+  - [LaSalleRobotics](https://github.com/LaSalleRobots/Ultimate-Goal/tree/master/Docs/LaSalleRobotics)
 - Game Manual
   - [Part One](https://www.firstinspires.org/sites/default/files/uploads/resource_library/ftc/game-manual-part-1-remote-events.pdf)
   - [Part Two](https://www.firstinspires.org/sites/default/files/uploads/resource_library/ftc/game-manual-part-2-remote-events.pdf)
