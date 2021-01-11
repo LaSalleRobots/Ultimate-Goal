@@ -56,15 +56,14 @@ public class RecordPlayer {
         ) !=
         0
       ) {
-        com
-          .qualcomm.ftccommon.SoundPlayer.getInstance()
+        com.qualcomm.ftccommon.SoundPlayer
+          .getInstance()
           .startPlaying(
             myApp,
             soundID,
             params,
             null,
             new Runnable() {
-
               public void run() {
                 playing = false;
               }
