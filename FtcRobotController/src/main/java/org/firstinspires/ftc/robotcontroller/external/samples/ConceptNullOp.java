@@ -33,7 +33,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -52,12 +51,11 @@ public class ConceptNullOp extends OpMode {
   }
 
   /*
-     * Code to run when the op mode is first enabled goes here
-     * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#start()
-     */
+   * Code to run when the op mode is first enabled goes here
+   * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#start()
+   */
   @Override
-  public void init_loop() {
-  }
+  public void init_loop() {}
 
   /*
    * This method will be called ONCE when start is pressed

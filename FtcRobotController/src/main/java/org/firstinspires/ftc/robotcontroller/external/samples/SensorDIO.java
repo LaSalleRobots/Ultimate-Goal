@@ -52,29 +52,28 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
  *
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
-*/
+ */
 @TeleOp(name = "Sensor: DIM DIO", group = "Sensor")
 @Disabled
 public class SensorDIO extends LinearOpMode {
 
-final int BLUE_LED_CHANNEL = 0;
-final int RED_LED_CHANNEL = 1;
+  final int BLUE_LED_CHANNEL = 0;
+  final int RED_LED_CHANNEL = 1;
 
   @Override
   public void runOpMode() {
-
-    boolean               inputPin;             // Input State
-    boolean               outputPin;            // Output State
-    DeviceInterfaceModule dim;                  // Device Object
-    DigitalChannel        digIn;                // Device Object
-    DigitalChannel        digOut;               // Device Object
+    boolean inputPin; // Input State
+    boolean outputPin; // Output State
+    DeviceInterfaceModule dim; // Device Object
+    DigitalChannel digIn; // Device Object
+    DigitalChannel digOut; // Device Object
 
     // get a reference to a Modern Robotics DIM, and IO channels.
-    dim = hardwareMap.get(DeviceInterfaceModule.class, "dim");   //  Use generic form of device mapping
-    digIn  = hardwareMap.get(DigitalChannel.class, "digin");     //  Use generic form of device mapping
-    digOut = hardwareMap.get(DigitalChannel.class, "digout");    //  Use generic form of device mapping
+    dim = hardwareMap.get(DeviceInterfaceModule.class, "dim"); //  Use generic form of device mapping
+    digIn = hardwareMap.get(DigitalChannel.class, "digin"); //  Use generic form of device mapping
+    digOut = hardwareMap.get(DigitalChannel.class, "digout"); //  Use generic form of device mapping
 
-    digIn.setMode(DigitalChannel.Mode.INPUT);          // Set the direction of each channel
+    digIn.setMode(DigitalChannel.Mode.INPUT); // Set the direction of each channel
     digOut.setMode(DigitalChannel.Mode.OUTPUT);
 
     // wait for the start button to be pressed.
@@ -82,26 +81,24 @@ final int RED_LED_CHANNEL = 1;
     telemetry.update();
     waitForStart();
 
-    while (opModeIsActive())  {
+    while (opModeIsActive()) {
+      outputPin = gamepad1.x; //  Set the output pin based on x button
+      digOut.setState(outputPin);
+      inputPin = digIn.getState(); //  Read the input pin
 
-        outputPin = gamepad1.x ;        //  Set the output pin based on x button
-        digOut.setState(outputPin);
-        inputPin = digIn.getState();    //  Read the input pin
+      // Display input pin state on LEDs
+      if (inputPin) {
+        dim.setLED(RED_LED_CHANNEL, true);
+        dim.setLED(BLUE_LED_CHANNEL, false);
+      } else {
+        dim.setLED(RED_LED_CHANNEL, false);
+        dim.setLED(BLUE_LED_CHANNEL, true);
+      }
 
-        // Display input pin state on LEDs
-        if (inputPin) {
-            dim.setLED(RED_LED_CHANNEL, true);
-            dim.setLED(BLUE_LED_CHANNEL, false);
-        }
-        else {
-            dim.setLED(RED_LED_CHANNEL, false);
-            dim.setLED(BLUE_LED_CHANNEL, true);
-        }
-
-        telemetry.addData("Output", outputPin );
-        telemetry.addData("Input", inputPin );
-        telemetry.addData("LED",   inputPin ? "Red" : "Blue" );
-        telemetry.update();
+      telemetry.addData("Output", outputPin);
+      telemetry.addData("Input", inputPin);
+      telemetry.addData("LED", inputPin ? "Red" : "Blue");
+      telemetry.update();
     }
   }
 }

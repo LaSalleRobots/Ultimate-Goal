@@ -54,8 +54,7 @@ public class SensorMRIrSeeker extends LinearOpMode {
 
   @Override
   public void runOpMode() {
-
-    IrSeekerSensor irSeeker;    // Hardware Device Object
+    IrSeekerSensor irSeeker; // Hardware Device Object
 
     // get a reference to our GyroSensor object.
     irSeeker = hardwareMap.get(IrSeekerSensor.class, "sensor_ir");
@@ -63,17 +62,13 @@ public class SensorMRIrSeeker extends LinearOpMode {
     // wait for the start button to be pressed.
     waitForStart();
 
-    while (opModeIsActive())  {
-
+    while (opModeIsActive()) {
       // Ensure we have a IR signal
-      if (irSeeker.signalDetected())
-      {
+      if (irSeeker.signalDetected()) {
         // Display angle and strength
-        telemetry.addData("Angle",    irSeeker.getAngle());
+        telemetry.addData("Angle", irSeeker.getAngle());
         telemetry.addData("Strength", irSeeker.getStrength());
-      }
-      else
-      {
+      } else {
         // Display loss of signal
         telemetry.addData("Seeker", "Signal Lost");
       }

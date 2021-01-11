@@ -32,7 +32,6 @@ package org.firstinspires.ftc.robotcontroller.external.samples;
 import android.app.Activity;
 import android.graphics.Color;
 import android.view.View;
-
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -40,7 +39,6 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import com.qualcomm.robotcore.hardware.SwitchableLight;
-
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 /**
@@ -88,12 +86,19 @@ public class SensorColor extends LinearOpMode {
    * block around the main, core logic, and an easy way to make that all clear was to separate
    * the former from the latter in separate methods.
    */
-  @Override public void runOpMode() {
-
+  @Override
+  public void runOpMode() {
     // Get a reference to the RelativeLayout so we can later change the background
     // color of the Robot Controller app to match the hue detected by the RGB sensor.
-    int relativeLayoutId = hardwareMap.appContext.getResources().getIdentifier("RelativeLayout", "id", hardwareMap.appContext.getPackageName());
-    relativeLayout = ((Activity) hardwareMap.appContext).findViewById(relativeLayoutId);
+    int relativeLayoutId = hardwareMap.appContext
+      .getResources()
+      .getIdentifier(
+        "RelativeLayout",
+        "id",
+        hardwareMap.appContext.getPackageName()
+      );
+    relativeLayout =
+      ((Activity) hardwareMap.appContext).findViewById(relativeLayoutId);
 
     try {
       runSample(); // actually execute the sample
@@ -102,12 +107,14 @@ public class SensorColor extends LinearOpMode {
       // as pure white, but it's too much work to dig out what actually was used, and this is good
       // enough to at least make the screen reasonable again.
       // Set the panel back to the default color
-      relativeLayout.post(new Runnable() {
-        public void run() {
-          relativeLayout.setBackgroundColor(Color.WHITE);
+      relativeLayout.post(
+        new Runnable() {
+          public void run() {
+            relativeLayout.setBackgroundColor(Color.WHITE);
+          }
         }
-      });
-      }
+      );
+    }
   }
 
   protected void runSample() {
@@ -140,7 +147,7 @@ public class SensorColor extends LinearOpMode {
     // If possible, turn the light on in the beginning (it might already be on anyway,
     // we just make sure it is if we can).
     if (colorSensor instanceof SwitchableLight) {
-      ((SwitchableLight)colorSensor).enableLight(true);
+      ((SwitchableLight) colorSensor).enableLight(true);
     }
 
     // Wait for the start button to be pressed.
@@ -149,8 +156,12 @@ public class SensorColor extends LinearOpMode {
     // Loop until we are asked to stop
     while (opModeIsActive()) {
       // Explain basic gain information via telemetry
-      telemetry.addLine("Hold the A button on gamepad 1 to increase gain, or B to decrease it.\n");
-      telemetry.addLine("Higher gain values mean that the sensor will report larger numbers for Red, Green, and Blue, and Value\n");
+      telemetry.addLine(
+        "Hold the A button on gamepad 1 to increase gain, or B to decrease it.\n"
+      );
+      telemetry.addLine(
+        "Higher gain values mean that the sensor will report larger numbers for Red, Green, and Blue, and Value\n"
+      );
 
       // Update the gain value if either of the A or B gamepad buttons is being held
       if (gamepad1.a) {
@@ -175,7 +186,7 @@ public class SensorColor extends LinearOpMode {
         // If the button is (now) down, then toggle the light
         if (xButtonCurrentlyPressed) {
           if (colorSensor instanceof SwitchableLight) {
-            SwitchableLight light = (SwitchableLight)colorSensor;
+            SwitchableLight light = (SwitchableLight) colorSensor;
             light.enableLight(!light.isLightOn());
           }
         }
@@ -193,31 +204,39 @@ public class SensorColor extends LinearOpMode {
       // Update the hsvValues array by passing it to Color.colorToHSV()
       Color.colorToHSV(colors.toColor(), hsvValues);
 
-      telemetry.addLine()
-              .addData("Red", "%.3f", colors.red)
-              .addData("Green", "%.3f", colors.green)
-              .addData("Blue", "%.3f", colors.blue);
-      telemetry.addLine()
-              .addData("Hue", "%.3f", hsvValues[0])
-              .addData("Saturation", "%.3f", hsvValues[1])
-              .addData("Value", "%.3f", hsvValues[2]);
+      telemetry
+        .addLine()
+        .addData("Red", "%.3f", colors.red)
+        .addData("Green", "%.3f", colors.green)
+        .addData("Blue", "%.3f", colors.blue);
+      telemetry
+        .addLine()
+        .addData("Hue", "%.3f", hsvValues[0])
+        .addData("Saturation", "%.3f", hsvValues[1])
+        .addData("Value", "%.3f", hsvValues[2]);
       telemetry.addData("Alpha", "%.3f", colors.alpha);
 
       /* If this color sensor also has a distance sensor, display the measured distance.
        * Note that the reported distance is only useful at very close range, and is impacted by
        * ambient light and surface reflectivity. */
       if (colorSensor instanceof DistanceSensor) {
-        telemetry.addData("Distance (cm)", "%.3f", ((DistanceSensor) colorSensor).getDistance(DistanceUnit.CM));
+        telemetry.addData(
+          "Distance (cm)",
+          "%.3f",
+          ((DistanceSensor) colorSensor).getDistance(DistanceUnit.CM)
+        );
       }
 
       telemetry.update();
 
       // Change the Robot Controller's background color to match the color detected by the color sensor.
-      relativeLayout.post(new Runnable() {
-        public void run() {
-          relativeLayout.setBackgroundColor(Color.HSVToColor(hsvValues));
+      relativeLayout.post(
+        new Runnable() {
+          public void run() {
+            relativeLayout.setBackgroundColor(Color.HSVToColor(hsvValues));
+          }
         }
-      });
+      );
     }
   }
 }

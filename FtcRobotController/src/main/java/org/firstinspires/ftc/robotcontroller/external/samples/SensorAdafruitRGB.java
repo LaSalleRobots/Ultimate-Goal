@@ -32,7 +32,6 @@ package org.firstinspires.ftc.robotcontroller.external.samples;
 import android.app.Activity;
 import android.graphics.Color;
 import android.view.View;
-
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -68,7 +67,7 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 @TeleOp(name = "Sensor: AdafruitRGB", group = "Sensor")
-@Disabled                            // Comment this out to add to the opmode list
+@Disabled // Comment this out to add to the opmode list
 public class SensorAdafruitRGB extends LinearOpMode {
 
   ColorSensor sensorRGB;
@@ -80,17 +79,23 @@ public class SensorAdafruitRGB extends LinearOpMode {
 
   @Override
   public void runOpMode() {
-
     // hsvValues is an array that will hold the hue, saturation, and value information.
-    float hsvValues[] = {0F,0F,0F};
+    float hsvValues[] = { 0F, 0F, 0F };
 
     // values is a reference to the hsvValues array.
     final float values[] = hsvValues;
 
     // get a reference to the RelativeLayout so we can change the background
     // color of the Robot Controller app to match the hue detected by the RGB sensor.
-    int relativeLayoutId = hardwareMap.appContext.getResources().getIdentifier("RelativeLayout", "id", hardwareMap.appContext.getPackageName());
-    final View relativeLayout = ((Activity) hardwareMap.appContext).findViewById(relativeLayoutId);
+    int relativeLayoutId = hardwareMap.appContext
+      .getResources()
+      .getIdentifier(
+        "RelativeLayout",
+        "id",
+        hardwareMap.appContext.getPackageName()
+      );
+    final View relativeLayout =
+      ((Activity) hardwareMap.appContext).findViewById(relativeLayoutId);
 
     // bPrevState and bCurrState represent the previous and current state of the button.
     boolean bPrevState = false;
@@ -118,14 +123,12 @@ public class SensorAdafruitRGB extends LinearOpMode {
 
     // loop and read the RGB data.
     // Note we use opModeIsActive() as our loop condition because it is an interruptible method.
-    while (opModeIsActive())  {
-
+    while (opModeIsActive()) {
       // check the status of the x button on gamepad.
       bCurrState = gamepad1.x;
 
       // check for button-press state transitions.
-      if ((bCurrState == true) && (bCurrState != bPrevState))  {
-
+      if ((bCurrState == true) && (bCurrState != bPrevState)) {
         // button is transitioning to a pressed state. Toggle the LED.
         bLedOn = !bLedOn;
         cdim.setDigitalChannelState(LED_CHANNEL, bLedOn);
@@ -135,7 +138,12 @@ public class SensorAdafruitRGB extends LinearOpMode {
       bPrevState = bCurrState;
 
       // convert the RGB values to HSV values.
-      Color.RGBToHSV((sensorRGB.red() * 255) / 800, (sensorRGB.green() * 255) / 800, (sensorRGB.blue() * 255) / 800, hsvValues);
+      Color.RGBToHSV(
+        (sensorRGB.red() * 255) / 800,
+        (sensorRGB.green() * 255) / 800,
+        (sensorRGB.blue() * 255) / 800,
+        hsvValues
+      );
 
       // send the info back to driver station using telemetry function.
       telemetry.addData("LED", bLedOn ? "On" : "Off");
@@ -148,20 +156,24 @@ public class SensorAdafruitRGB extends LinearOpMode {
       // change the background color to match the color detected by the RGB sensor.
       // pass a reference to the hue, saturation, and value array as an argument
       // to the HSVToColor method.
-      relativeLayout.post(new Runnable() {
-        public void run() {
-          relativeLayout.setBackgroundColor(Color.HSVToColor(0xff, values));
+      relativeLayout.post(
+        new Runnable() {
+          public void run() {
+            relativeLayout.setBackgroundColor(Color.HSVToColor(0xff, values));
+          }
         }
-      });
+      );
 
       telemetry.update();
     }
 
     // Set the panel back to the default color
-    relativeLayout.post(new Runnable() {
-      public void run() {
-        relativeLayout.setBackgroundColor(Color.WHITE);
+    relativeLayout.post(
+      new Runnable() {
+        public void run() {
+          relativeLayout.setBackgroundColor(Color.WHITE);
+        }
       }
-    });
+    );
   }
 }
