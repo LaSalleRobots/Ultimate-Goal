@@ -150,8 +150,7 @@ public class VuMarkIdentification extends LinearOpMode {
             hMap.appContext.getPackageName()
           );
         parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
-      } else // OR...  Do Not Activate the Camera Monitor View, to save power
-      parameters = new VuforiaLocalizer.Parameters();
+      } else parameters = new VuforiaLocalizer.Parameters(); // OR...  Do Not Activate the Camera Monitor View, to save power
 
       /*
        * We also indicate which camera on the RC that we wish to use.
@@ -189,8 +188,7 @@ public class VuMarkIdentification extends LinearOpMode {
             hMap.appContext.getPackageName()
           );
         parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
-      } else // OR...  Do Not Activate the Camera Monitor View, to save power
-      parameters = new VuforiaLocalizer.Parameters();
+      } else parameters = new VuforiaLocalizer.Parameters(); // OR...  Do Not Activate the Camera Monitor View, to save power
 
       /*
        * Retrieve and set the USB web camera we are to use.
