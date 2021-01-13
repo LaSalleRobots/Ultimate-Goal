@@ -150,7 +150,7 @@ public class DistanceFromPaper extends LinearOpMode {
     public Mat processFrame(Mat input) {
       input.copyTo(display);
       Imgproc.cvtColor(input, grey, Imgproc.COLOR_RGB2GRAY);
-      Imgproc.blur(grey, grey, new Size(7.0, 7.0));
+      Imgproc.blur(grey, grey, new Size(5.0, 5.0));
       Imgproc.Canny(grey, grey, 60, 125);
       contors.clear();
       Imgproc.findContours(
