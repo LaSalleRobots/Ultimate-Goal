@@ -66,7 +66,7 @@ public class DistanceFromPaper extends LinearOpMode {
           cameraMonitorViewId
         );
     phoneCam.openCameraDevice();
-    PaperDetectionPipeline pipeline = new PaperDetectionPipeline();
+    PaperDetectionPipeline pipeline = new PaperDetectionPipeline(20);
     phoneCam.setPipeline(pipeline);
 
     // Set the viewport renderer to use the gpu so we have better handling
@@ -97,16 +97,22 @@ public class DistanceFromPaper extends LinearOpMode {
     Mat grey = new Mat();
     Mat display = new Mat();
 
-    List<MatOfPoint> contors = new ArrayList<>();
+    List<MatOfPoint> contours = new ArrayList<>();
     MatOfPoint big = new MatOfPoint();
     MatOfPoint2f pointBig = new MatOfPoint2f();
     RotatedRect bounds = new RotatedRect();
     private RotatedRect newBounds = new RotatedRect();
+    private int thresh;
+
+
+    PaperDetectionPipeline(int similarityThresh) {
+      thresh = similarityThresh;
+    }
 
     private MatOfPoint max() {
-      if (contors.size() > 0) {
-        MatOfPoint largest = contors.get(0);
-        for (MatOfPoint point : contors) {
+      if (contours.size() > 0) {
+        MatOfPoint largest = contours.get(0);
+        for (MatOfPoint point : contours.subList(1, contours.size())) {
           if (point.size().area() > largest.size().area()) {
             largest = point;
           }
@@ -120,28 +126,30 @@ public class DistanceFromPaper extends LinearOpMode {
     public Mat processFrame(Mat input) {
       input.copyTo(display);
       Imgproc.cvtColor(input, grey, Imgproc.COLOR_RGB2GRAY);
-      Imgproc.blur(grey, grey, new Size(3.0, 3.0));
-      Imgproc.Canny(grey, grey, 120, 150);
-      contors.clear();
+      Imgproc.blur(grey, grey, new Size(3.0, 3.0)); // Clean up the image for edge detection
+      Imgproc.Canny(grey, grey, 120, 150); // find the edges with a canny edge detector
+      contours.clear(); // clear our contours list as it doesn't reset every loop
       Imgproc.findContours(
         grey,
-        contors,
+        contours,
         new Mat(),
         Imgproc.RETR_LIST,
         Imgproc.CHAIN_APPROX_SIMPLE
       );
       big = max();
-      Imgproc.drawContours(display, contors, -1, new Scalar(225, 0, 0));
-      contors.clear();
+      Imgproc.drawContours(display, contours, -1, new Scalar(225, 0, 0));
       if (big != null && opModeIsActive()) {
-        contors.add(big);
         big.convertTo(pointBig, CvType.CV_32F);
 
         newBounds = Imgproc.minAreaRect(pointBig);
+        // Decide if the biggest bounds we have found are similar to the last frame processed
         if (
-          (newBounds.size.width * newBounds.size.height) >
-          (bounds.size.width * bounds.size.height)
+                (bounds.size.width - thresh <= newBounds.size.width && newBounds.size.width < bounds.size.width + thresh)
+                        &&
+                (bounds.size.height - thresh <= newBounds.size.height && newBounds.size.height < bounds.size.height + thresh)
         ) {
+          bounds = newBounds;
+         } else if (bounds.size.equals(new Size(0,0))) {
           bounds = newBounds;
         }
 
