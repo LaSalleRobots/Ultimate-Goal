@@ -83,7 +83,6 @@ public class DistanceFromPaper extends LinearOpMode {
       OpenCvInternalCamera.BufferMethod.DOUBLE
     );
 
-
     waitForStart();
 
     while (opModeIsActive()) {
@@ -103,7 +102,6 @@ public class DistanceFromPaper extends LinearOpMode {
     MatOfPoint2f pointBig = new MatOfPoint2f();
     RotatedRect bounds = new RotatedRect();
     private RotatedRect newBounds = new RotatedRect();
-
 
     private MatOfPoint max() {
       if (contors.size() > 0) {
@@ -140,7 +138,10 @@ public class DistanceFromPaper extends LinearOpMode {
         big.convertTo(pointBig, CvType.CV_32F);
 
         newBounds = Imgproc.minAreaRect(pointBig);
-        if ((newBounds.size.width * newBounds.size.height) > (bounds.size.width * bounds.size.height)) {
+        if (
+          (newBounds.size.width * newBounds.size.height) >
+          (bounds.size.width * bounds.size.height)
+        ) {
           bounds = newBounds;
         }
 
@@ -152,7 +153,11 @@ public class DistanceFromPaper extends LinearOpMode {
          * Imgproc.drawContours(display, boxContours, 0, new Scalar(128, 128, 128), -1);
          */
 
-        Imgproc.rectangle(display, bounds.boundingRect(), new Scalar(0, 255, 255));
+        Imgproc.rectangle(
+          display,
+          bounds.boundingRect(),
+          new Scalar(0, 255, 255)
+        );
       }
 
       return display;
