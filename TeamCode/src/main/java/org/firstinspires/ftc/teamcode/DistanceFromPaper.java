@@ -104,7 +104,6 @@ public class DistanceFromPaper extends LinearOpMode {
     private RotatedRect newBounds = new RotatedRect();
     private int thresh;
 
-
     PaperDetectionPipeline(int similarityThresh) {
       thresh = similarityThresh;
     }
@@ -144,12 +143,17 @@ public class DistanceFromPaper extends LinearOpMode {
         newBounds = Imgproc.minAreaRect(pointBig);
         // Decide if the biggest bounds we have found are similar to the last frame processed
         if (
-                (bounds.size.width - thresh <= newBounds.size.width && newBounds.size.width < bounds.size.width + thresh)
-                        &&
-                (bounds.size.height - thresh <= newBounds.size.height && newBounds.size.height < bounds.size.height + thresh)
+          (
+            bounds.size.width - thresh <= newBounds.size.width &&
+            newBounds.size.width < bounds.size.width + thresh
+          ) &&
+          (
+            bounds.size.height - thresh <= newBounds.size.height &&
+            newBounds.size.height < bounds.size.height + thresh
+          )
         ) {
           bounds = newBounds;
-         } else if (bounds.size.equals(new Size(0,0))) {
+        } else if (bounds.size.equals(new Size(0, 0))) {
           bounds = newBounds;
         }
 
