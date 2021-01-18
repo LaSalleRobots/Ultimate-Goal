@@ -45,7 +45,7 @@ public class DistanceFromPaper extends LinearOpMode {
           cameraMonitorViewId
         );
     phoneCam.openCameraDevice();
-    PaperDetectionPipeline pipeline = new PaperDetectionPipeline(20, 80);
+    PaperDetectionPipeline pipeline = new PaperDetectionPipeline(40, 80);
     phoneCam.setPipeline(pipeline);
 
     // Set the viewport renderer to use the gpu so we have better handling
