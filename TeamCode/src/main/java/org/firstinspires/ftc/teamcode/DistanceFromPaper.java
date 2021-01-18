@@ -66,7 +66,7 @@ public class DistanceFromPaper extends LinearOpMode {
           cameraMonitorViewId
         );
     phoneCam.openCameraDevice();
-    PaperDetectionPipeline pipeline = new PaperDetectionPipeline(20);
+    PaperDetectionPipeline pipeline = new PaperDetectionPipeline(20, 80);
     phoneCam.setPipeline(pipeline);
 
     // Set the viewport renderer to use the gpu so we have better handling
@@ -102,10 +102,17 @@ public class DistanceFromPaper extends LinearOpMode {
     MatOfPoint2f pointBig = new MatOfPoint2f();
     RotatedRect bounds = new RotatedRect();
     private RotatedRect newBounds = new RotatedRect();
-    private int thresh;
+    private int threshW;
+    private int threshH;
 
     PaperDetectionPipeline(int similarityThresh) {
-      thresh = similarityThresh;
+      threshW = similarityThresh;
+      threshH = similarityThresh;
+    }
+
+    PaperDetectionPipeline(int threshW, int threshH) {
+      this.threshW = threshW;
+      this.threshH = threshH;
     }
 
     private MatOfPoint max() {
@@ -144,12 +151,12 @@ public class DistanceFromPaper extends LinearOpMode {
         // Decide if the biggest bounds we have found are similar to the last frame processed
         if (
           (
-            bounds.size.width - thresh <= newBounds.size.width &&
-            newBounds.size.width < bounds.size.width + thresh
+            bounds.size.width - threshW <= newBounds.size.width &&
+            newBounds.size.width < bounds.size.width + threshW
           ) &&
           (
-            bounds.size.height - thresh <= newBounds.size.height &&
-            newBounds.size.height < bounds.size.height + thresh
+            bounds.size.height - threshH <= newBounds.size.height &&
+            newBounds.size.height < bounds.size.height + threshH
           )
         ) {
           bounds = newBounds;
