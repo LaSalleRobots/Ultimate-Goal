@@ -68,6 +68,9 @@ public class DistanceFromPaper extends LinearOpMode {
       telemetry.addData("bounds", pipeline.bounds);
       telemetry.update();
       sleep(100);
+      if (gamepad1.x) {
+        pipeline.resetBounds();
+      }
     }
   }
 
@@ -156,9 +159,15 @@ public class DistanceFromPaper extends LinearOpMode {
           bounds.boundingRect(),
           new Scalar(0, 255, 255)
         );
+      } else {
+        bounds = new RotatedRect();
       }
 
       return display;
+    }
+
+    public void resetBounds() {
+      bounds = new RotatedRect();
     }
   }
 }
