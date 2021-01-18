@@ -57,6 +57,7 @@ public class DistanceFromPaper extends LinearOpMode {
         "id",
         hardwareMap.appContext.getPackageName()
       ); // for camera preview
+
     phoneCam =
       OpenCvCameraFactory
         .getInstance()
@@ -65,73 +66,44 @@ public class DistanceFromPaper extends LinearOpMode {
           cameraMonitorViewId
         );
     phoneCam.openCameraDevice();
-    UselessColorBoxDrawingPipeline pipeline = new UselessColorBoxDrawingPipeline(
-      new Scalar(255, 255, 255)
-    );
+    PaperDetectionPipeline pipeline = new PaperDetectionPipeline();
     phoneCam.setPipeline(pipeline);
+
+    // Set the viewport renderer to use the gpu so we have better handling
+    phoneCam.setViewportRenderer(OpenCvCamera.ViewportRenderer.GPU_ACCELERATED);
 
     /*
      * We use the most verbose version of #startStreaming(), which allows us to specify whether we want to use double
      * (default) or single buffering. See the JavaDoc for this method for more details
      */
     phoneCam.startStreaming(
-      320,
-      240,
-      OpenCvCameraRotation.UPRIGHT,
+      640,
+      480,
+      OpenCvCameraRotation.SIDEWAYS_LEFT,
       OpenCvInternalCamera.BufferMethod.DOUBLE
     );
 
-    /*
-     * Demonstrate how to turn on the flashlight
-     */
-    //phoneCam.setFlashlightEnabled(true);
-
-    /*
-     * Demonstrate how to use the zoom. Here we zoom
-     * in as much as is supported.
-     */
-    //phoneCam.setZoom(phoneCam.getMaxSupportedZoom());
-
-    /*
-     * Demonstrate how to set the recording hint on the
-     * camera hardware. See the JavDoc for this method
-     * for more details.
-     */
-    phoneCam.setRecordingHint(true);
-
-    /*
-     * Demonstrate how to lock the camera hardware to sending frames at 30FPS, if it supports that
-     */
-    for (OpenCvInternalCamera.FrameTimingRange r : phoneCam.getFrameTimingRangesSupportedByHardware()) {
-      if (r.max == 30 && r.min == 30) {
-        phoneCam.setHardwareFrameTimingRange(r);
-        break;
-      }
-    }
 
     waitForStart();
 
     while (opModeIsActive()) {
-      telemetry.addData("big", pipeline.big);
       telemetry.addData("bounds", pipeline.bounds);
       telemetry.update();
       sleep(100);
     }
   }
 
-  class UselessColorBoxDrawingPipeline extends OpenCvPipeline {
+  class PaperDetectionPipeline extends OpenCvPipeline {
 
-    Scalar color;
     Mat grey = new Mat();
     Mat display = new Mat();
 
     List<MatOfPoint> contors = new ArrayList<>();
     MatOfPoint big = new MatOfPoint();
-    Rect bounds = new Rect();
+    MatOfPoint2f pointBig = new MatOfPoint2f();
+    RotatedRect bounds = new RotatedRect();
+    private RotatedRect newBounds = new RotatedRect();
 
-    UselessColorBoxDrawingPipeline(Scalar color) {
-      this.color = color;
-    }
 
     private MatOfPoint max() {
       if (contors.size() > 0) {
@@ -150,8 +122,8 @@ public class DistanceFromPaper extends LinearOpMode {
     public Mat processFrame(Mat input) {
       input.copyTo(display);
       Imgproc.cvtColor(input, grey, Imgproc.COLOR_RGB2GRAY);
-      Imgproc.blur(grey, grey, new Size(5.0, 5.0));
-      Imgproc.Canny(grey, grey, 60, 125);
+      Imgproc.blur(grey, grey, new Size(3.0, 3.0));
+      Imgproc.Canny(grey, grey, 120, 150);
       contors.clear();
       Imgproc.findContours(
         grey,
@@ -161,13 +133,28 @@ public class DistanceFromPaper extends LinearOpMode {
         Imgproc.CHAIN_APPROX_SIMPLE
       );
       big = max();
+      Imgproc.drawContours(display, contors, -1, new Scalar(225, 0, 0));
       contors.clear();
       if (big != null && opModeIsActive()) {
         contors.add(big);
-        bounds = Imgproc.boundingRect(big);
-        Imgproc.rectangle(display, bounds, new Scalar(0, 255, 255));
+        big.convertTo(pointBig, CvType.CV_32F);
+
+        newBounds = Imgproc.minAreaRect(pointBig);
+        if ((newBounds.size.width * newBounds.size.height) > (bounds.size.width * bounds.size.height)) {
+          bounds = newBounds;
+        }
+
+        /* This is for drawing the body of the rotated rect as that isn't supported officially
+         * Point[] vertices = new Point[4];
+         * bounds.points(vertices);
+         * List<MatOfPoint> boxContours = new ArrayList<>();
+         * boxContours.add(new MatOfPoint(vertices));
+         * Imgproc.drawContours(display, boxContours, 0, new Scalar(128, 128, 128), -1);
+         */
+
+        Imgproc.rectangle(display, bounds.boundingRect(), new Scalar(0, 255, 255));
       }
-      Imgproc.drawContours(display, contors, -1, new Scalar(225, 0, 0));
+
       return display;
     }
   }
