@@ -91,13 +91,23 @@ public class DistanceFromPaper extends LinearOpMode {
       pctBoundsThreshold = pctThreshold;
     }
 
-    public PaperColorPipeline(double pctThreshold, int thresholdThresh, int thresholdMaxVal) {
+    public PaperColorPipeline(
+      double pctThreshold,
+      int thresholdThresh,
+      int thresholdMaxVal
+    ) {
       this.pctBoundsThreshold = pctThreshold;
       this.thresholdThresh = thresholdThresh;
       this.thresholdMaxVal = thresholdMaxVal;
     }
 
-    public PaperColorPipeline(double pctThreshold, int thresholdThresh, int thresholdMaxVal, int cannyMinThreshold, int cannyMaxThreshold) {
+    public PaperColorPipeline(
+      double pctThreshold,
+      int thresholdThresh,
+      int thresholdMaxVal,
+      int cannyMinThreshold,
+      int cannyMaxThreshold
+    ) {
       this.pctBoundsThreshold = pctThreshold;
       this.thresholdThresh = thresholdThresh;
       this.thresholdMaxVal = thresholdMaxVal;
@@ -109,15 +119,21 @@ public class DistanceFromPaper extends LinearOpMode {
     public Mat processFrame(Mat input) {
       contours.clear();
       Imgproc.cvtColor(input, gray, Imgproc.COLOR_RGB2GRAY);
-      Imgproc.blur(gray, gray, new Size(3,3 ));
-      Imgproc.threshold(gray, threshold, thresholdThresh, thresholdMaxVal, Imgproc.THRESH_BINARY_INV + Imgproc.THRESH_OTSU);
+      Imgproc.blur(gray, gray, new Size(3, 3));
+      Imgproc.threshold(
+        gray,
+        threshold,
+        thresholdThresh,
+        thresholdMaxVal,
+        Imgproc.THRESH_BINARY_INV + Imgproc.THRESH_OTSU
+      );
       Imgproc.Canny(threshold, edges, cannyMinThreshold, cannyMaxThreshold);
       Imgproc.findContours(
-              edges,
-              contours,
-              new Mat(),
-              Imgproc.RETR_LIST,
-              Imgproc.CHAIN_APPROX_SIMPLE
+        edges,
+        contours,
+        new Mat(),
+        Imgproc.RETR_LIST,
+        Imgproc.CHAIN_APPROX_SIMPLE
       );
       input.copyTo(output);
       //Imgproc.drawContours(output, contours, -1, new Scalar(225, 0, 0));
@@ -127,11 +143,18 @@ public class DistanceFromPaper extends LinearOpMode {
         largestContour.convertTo(largestContour2f, CvType.CV_32F);
         RotatedRect newBounds = Imgproc.minAreaRect(largestContour2f);
         double sizeDifference = newBounds.size.area() / bounds.size.area();
-        if (sizeDifference > pctBoundsThreshold || sizeDifference < -pctBoundsThreshold) {
+        if (
+          sizeDifference > pctBoundsThreshold ||
+          sizeDifference < -pctBoundsThreshold
+        ) {
           bounds = newBounds;
         }
-        Imgproc.rectangle(output, newBounds.boundingRect(), new Scalar(0,255,0));
-        Imgproc.rectangle(output, bounds.boundingRect(), new Scalar(255,0,0));
+        Imgproc.rectangle(
+          output,
+          newBounds.boundingRect(),
+          new Scalar(0, 255, 0)
+        );
+        Imgproc.rectangle(output, bounds.boundingRect(), new Scalar(255, 0, 0));
       }
       return output;
     }
@@ -148,6 +171,5 @@ public class DistanceFromPaper extends LinearOpMode {
       }
       return null;
     }
-
   }
 }
