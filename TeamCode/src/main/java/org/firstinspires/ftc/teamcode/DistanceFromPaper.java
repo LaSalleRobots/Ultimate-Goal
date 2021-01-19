@@ -10,7 +10,7 @@ import org.openftc.easyopencv.*;
  * In this sample, we demonstrate how to use the advanced features provided
  * by the {@link OpenCvInternalCamera} interface
  */
-@TeleOp(name = "OpenCV", group = "AI")
+@TeleOp(name = "OpenCV Paper Detection Demo Algorithm", group = "AI")
 public class DistanceFromPaper extends LinearOpMode {
 
   /**
@@ -50,7 +50,7 @@ public class DistanceFromPaper extends LinearOpMode {
 
     // Set the viewport renderer to use the gpu so we have better handling
     phoneCam.setViewportRenderer(OpenCvCamera.ViewportRenderer.GPU_ACCELERATED);
-
+    phoneCam.showFpsMeterOnViewport(false);
     /*
      * We use the most verbose version of #startStreaming(), which allows us to specify whether we want to use double
      * (default) or single buffering. See the JavaDoc for this method for more details
@@ -65,7 +65,10 @@ public class DistanceFromPaper extends LinearOpMode {
     waitForStart();
 
     while (opModeIsActive()) {
-      telemetry.addData("bounds", pipeline.bounds);
+      telemetry.addData("FPS", phoneCam.getFps());
+      telemetry.addData("Pipeline (ms)", phoneCam.getPipelineTimeMs());
+      telemetry.addData("Total Frame time (ms)", phoneCam.getTotalFrameTimeMs());
+      //telemetry.addData("bounds", pipeline.bounds);
       telemetry.update();
       sleep(100);
     }
