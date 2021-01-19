@@ -67,7 +67,10 @@ public class DistanceFromPaper extends LinearOpMode {
     while (opModeIsActive()) {
       telemetry.addData("FPS", phoneCam.getFps());
       telemetry.addData("Pipeline (ms)", phoneCam.getPipelineTimeMs());
-      telemetry.addData("Total Frame time (ms)", phoneCam.getTotalFrameTimeMs());
+      telemetry.addData(
+        "Total Frame time (ms)",
+        phoneCam.getTotalFrameTimeMs()
+      );
       //telemetry.addData("bounds", pipeline.bounds);
       telemetry.update();
       sleep(100);
