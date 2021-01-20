@@ -13,70 +13,28 @@ import org.openftc.easyopencv.*;
 @TeleOp(name = "OpenCV Paper Detection Demo Algorithm", group = "AI")
 public class DistanceFromPaper extends LinearOpMode {
 
-  /**
-   * NB: we declare our camera as the {@link OpenCvInternalCamera} type,
-   * as opposed to simply {@link OpenCvCamera}. This allows us to access
-   * the advanced features supported only by the internal camera.
-   */
-  OpenCvInternalCamera phoneCam;
 
   @Override
   public void runOpMode() {
-    /**
-     * NOTE: Many comments have been omitted from this sample for the
-     * sake of conciseness. If you're just starting out with EasyOpenCV,
-     * you should take a look at {@link InternalCamera1Example} or its
-     * webcam counterpart, {@link WebcamExample} first.
-     */
 
-    int cameraMonitorViewId = hardwareMap.appContext
-      .getResources()
-      .getIdentifier(
-        "cameraMonitorViewId",
-        "id",
-        hardwareMap.appContext.getPackageName()
-      ); // for camera preview
+    DistanceFromPaperTracker distanceTracker = new DistanceFromPaperTracker(0.5);
+    OpenCVPipelineRunner runner = new OpenCVPipelineRunner(hardwareMap, distanceTracker);
 
-    phoneCam =
-      OpenCvCameraFactory
-        .getInstance()
-        .createInternalCamera(
-          OpenCvInternalCamera.CameraDirection.BACK,
-          cameraMonitorViewId
-        );
-    phoneCam.openCameraDevice();
-    DistanceFromPaperPipeline pipeline = new DistanceFromPaperPipeline(0.5);
-    phoneCam.setPipeline(pipeline);
-
-    // Set the viewport renderer to use the gpu so we have better handling
-    phoneCam.setViewportRenderer(OpenCvCamera.ViewportRenderer.GPU_ACCELERATED);
-    phoneCam.showFpsMeterOnViewport(false);
-    /*
-     * We use the most verbose version of #startStreaming(), which allows us to specify whether we want to use double
-     * (default) or single buffering. See the JavaDoc for this method for more details
-     */
-    phoneCam.startStreaming(
-      640,
-      480,
-      OpenCvCameraRotation.SIDEWAYS_LEFT,
-      OpenCvInternalCamera.BufferMethod.DOUBLE
-    );
-
+    runner.start();
     waitForStart();
 
     while (opModeIsActive()) {
-      telemetry.addData("FPS", phoneCam.getFps());
-      telemetry.addData("Pipeline (ms)", phoneCam.getPipelineTimeMs());
+      telemetry.addData("FPS", runner.phoneCam.getFps());
+      telemetry.addData("Pipeline (ms)", runner.phoneCam.getPipelineTimeMs());
       telemetry.addData(
         "Total Frame time (ms)",
-        phoneCam.getTotalFrameTimeMs()
+        runner.phoneCam.getTotalFrameTimeMs()
       );
       telemetry.addData(
         "W, H (px)",
-        pipeline.bounds.size.width + ", " + pipeline.bounds.size.height
+        distanceTracker.bounds.size.width + ", " + distanceTracker.bounds.size.height
       );
-      telemetry.addData("distance (in)", pipeline.computeDistance());
-      //telemetry.addData("bounds", pipeline.bounds);
+      telemetry.addData("distance (in)", distanceTracker.computeDistance());
       telemetry.update();
       sleep(100);
     }
