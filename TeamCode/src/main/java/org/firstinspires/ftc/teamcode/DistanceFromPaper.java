@@ -13,12 +13,15 @@ import org.openftc.easyopencv.*;
 @TeleOp(name = "OpenCV Paper Detection Demo Algorithm", group = "AI")
 public class DistanceFromPaper extends LinearOpMode {
 
-
   @Override
   public void runOpMode() {
-
-    DistanceFromPaperTracker distanceTracker = new DistanceFromPaperTracker(0.5);
-    OpenCVPipelineRunner runner = new OpenCVPipelineRunner(hardwareMap, distanceTracker);
+    DistanceFromPaperTracker distanceTracker = new DistanceFromPaperTracker(
+      0.5
+    );
+    OpenCVPipelineRunner runner = new OpenCVPipelineRunner(
+      hardwareMap,
+      distanceTracker
+    );
 
     runner.start();
     waitForStart();
@@ -32,7 +35,9 @@ public class DistanceFromPaper extends LinearOpMode {
       );
       telemetry.addData(
         "W, H (px)",
-        distanceTracker.bounds.size.width + ", " + distanceTracker.bounds.size.height
+        distanceTracker.bounds.size.width +
+        ", " +
+        distanceTracker.bounds.size.height
       );
       telemetry.addData("distance (in)", distanceTracker.computeDistance());
       telemetry.update();
