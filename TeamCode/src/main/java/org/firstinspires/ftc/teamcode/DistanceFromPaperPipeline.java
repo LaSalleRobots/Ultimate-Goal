@@ -13,10 +13,10 @@ import org.openftc.easyopencv.OpenCvPipeline;
 
 public class DistanceFromPaperPipeline extends OpenCvPipeline {
 
-    /**
-     * The hand pre-calculated value of the focal length for calculating the distance using @see #computeDistance()
-     * This value can be calculated with <code>F = (P x  D) / W</code> f=focalLength P=perceivedPxCount W=actual width
-     */
+  /**
+   * The hand pre-calculated value of the focal length for calculating the distance using @see #computeDistance()
+   * This value can be calculated with <code>F = (P x  D) / W</code> f=focalLength P=perceivedPxCount W=actual width
+   */
   private final double focalLength = 642.9090909;
 
   private final Mat output = new Mat();
