@@ -6,6 +6,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.YZX;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.EXTRINSIC;
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -98,6 +99,7 @@ public class VuforiaExample extends LinearOpMode {
 
   @Override
   public void runOpMode() {
+    msStuckDetectStop = 2500;
     /*
      * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
      * We can pass Vuforia the handle to a camera preview resource (on the RC phone);
@@ -255,6 +257,8 @@ public class VuforiaExample extends LinearOpMode {
     // This sequence is used to enable the new remote DS Camera Preview feature to be used with this sample.
     // CONSEQUENTLY do not put any driving commands in this loop.
     // To restore the normal opmode structure, just un-comment the following line:
+
+    FtcDashboard.getInstance().startCameraStream(vuforia, 0);
 
     waitForStart();
 
