@@ -21,7 +21,7 @@ public class DriveModeFieldIMU extends LinearOpMode {
   private Acceleration gravity;
 
   private double getGamepadMoveMagnitude(Gamepad gamepad) {
-    return Math.hypot(gamepad.left_stick_x, gamepad.left_stick_y);
+    return -Math.hypot(gamepad.left_stick_x, gamepad.left_stick_y);
   }
 
   private double getGamepadTurnMagnitude(Gamepad gamepad) {
@@ -29,7 +29,7 @@ public class DriveModeFieldIMU extends LinearOpMode {
   }
 
   private double getGamepadMoveAngle(Gamepad gamepad) {
-    return Math.asin((gamepad.left_stick_x / gamepad.left_stick_y));
+    return Math.atan2(gamepad.left_stick_y, gamepad.left_stick_x);
   }
 
   private double getRobotHeading() {
@@ -39,7 +39,7 @@ public class DriveModeFieldIMU extends LinearOpMode {
         AxesOrder.XYZ,
         AngleUnit.DEGREES
       );
-    return angles.firstAngle;
+    return angles.secondAngle;
   }
 
   @Override
@@ -58,22 +58,22 @@ public class DriveModeFieldIMU extends LinearOpMode {
     while (opModeIsActive()) {
       fL.setPower(
         getGamepadMoveMagnitude(gamepad1) *
-        Math.sin(getRobotHeading() + (Math.PI / 4)) +
+        Math.sin((getGamepadMoveAngle(gamepad1) - getRobotHeading()) + (Math.PI / 4)) +
         getGamepadTurnMagnitude(gamepad1)
       );
       bL.setPower(
         getGamepadMoveMagnitude(gamepad1) *
-        Math.sin(getRobotHeading() - (Math.PI / 4)) +
+        Math.sin((getGamepadMoveAngle(gamepad1) - getRobotHeading()) - (Math.PI / 4)) +
         getGamepadTurnMagnitude(gamepad1)
       );
       fR.setPower(
         getGamepadMoveMagnitude(gamepad1) *
-        Math.sin(getRobotHeading() + (Math.PI / 4)) -
+        Math.sin((getGamepadMoveAngle(gamepad1) - getRobotHeading()) + (Math.PI / 4)) -
         getGamepadTurnMagnitude(gamepad1)
       );
       bR.setPower(
         getGamepadMoveMagnitude(gamepad1) *
-        Math.sin(getRobotHeading() - (Math.PI / 4)) -
+        Math.sin((getGamepadMoveAngle(gamepad1) - getRobotHeading()) - (Math.PI / 4)) -
         getGamepadTurnMagnitude(gamepad1)
       );
     }

@@ -22,7 +22,7 @@ OpenCVPipelineRunner runner = new OpenCVPipelineRunner(
 - `removeTracker(t)` removes the tracker from the runner
 
 ### Fields
-- `phoneCam` is a `OpenCvInternalCamera` that can be access directly
+- `phoneCam` is a `OpenCvInternalCamera` that can be accessed directly
 
 
 ### Sample
