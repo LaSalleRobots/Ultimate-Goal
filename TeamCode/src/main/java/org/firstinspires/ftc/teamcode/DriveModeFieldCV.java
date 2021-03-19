@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 @Config
-@TeleOp(name = "Driver Controlled (Field Centric [CV])", group = "Tests")
+@TeleOp(name = "Driver Controlled (Field Centric [CV])", group = "Driving")
 public class DriveModeFieldCV extends LinearOpMode {
 
   private VuVision vision = null;
@@ -31,7 +31,6 @@ public class DriveModeFieldCV extends LinearOpMode {
     DcMotor bL = hardwareMap.get(DcMotor.class, "bL");
     DcMotor fR = hardwareMap.get(DcMotor.class, "fR");
     DcMotor bR = hardwareMap.get(DcMotor.class, "bR");
-    double robotHeading = 0;
 
     vision.activateStart();
 

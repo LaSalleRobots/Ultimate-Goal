@@ -14,7 +14,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 @Config
-@TeleOp(name = "Driver Controlled (Field Centric [IMU])", group = "Tests")
+@TeleOp(name = "Driver Controlled (Field Centric [IMU])", group = "Driving")
 public class DriveModeFieldIMU extends LinearOpMode {
 
   private BNO055IMU imu = null;
