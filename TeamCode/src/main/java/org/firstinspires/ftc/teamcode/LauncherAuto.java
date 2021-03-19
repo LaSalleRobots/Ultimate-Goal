@@ -7,11 +7,11 @@ import com.qualcomm.robotcore.hardware.Servo;
 import java.util.*;
 
 @Config
-@TeleOp(name = "LauncherAlwaysOn", group = "Tests")
+@TeleOp(name = "LauncherAlwaysOn (Reading)", group = "Tests")
 public class LauncherAuto extends LinearOpMode {
 
   public static double servoStart = 0.0;
-  public static double servoEnd = 1.0;
+  public static double servoEnd = 255.0;
 
   @Override
   public void runOpMode() {
