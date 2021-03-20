@@ -16,9 +16,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 @TeleOp(name = "Driver Controlled (Field Centric [IMU])", group = "Driving")
 public class DriveModeFieldIMU extends LinearOpMode {
 
-  private BNO055IMU imu = null;
-  private Orientation angles;
-  private Acceleration gravity;
+  private MasqAdafruitIMU imu = null;
 
   private double getGamepadMoveMagnitude(Gamepad gamepad) {
     return -Math.hypot(gamepad.left_stick_x, gamepad.left_stick_y);
@@ -33,26 +31,17 @@ public class DriveModeFieldIMU extends LinearOpMode {
   }
 
   private double getRobotHeading() {
-    angles =
-      imu.getAngularOrientation(
-        AxesReference.INTRINSIC,
-        AxesOrder.XYZ,
-        AngleUnit.DEGREES
-      );
-    return angles.secondAngle;
+    return imu.getPitch();
   }
 
   @Override
   public void runOpMode() throws InterruptedException {
-    BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-    parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
-    parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-    imu = hardwareMap.get(BNO055IMU.class, "imu");
-    imu.initialize(parameters);
+    imu = new MasqAdafruitIMU("imu", hardwareMap);
     DcMotor fL = hardwareMap.get(DcMotor.class, "fL");
     DcMotor bL = hardwareMap.get(DcMotor.class, "bL");
     DcMotor fR = hardwareMap.get(DcMotor.class, "fR");
     DcMotor bR = hardwareMap.get(DcMotor.class, "bR");
+    imu.reset();
     waitForStart();
 
     while (opModeIsActive()) {
