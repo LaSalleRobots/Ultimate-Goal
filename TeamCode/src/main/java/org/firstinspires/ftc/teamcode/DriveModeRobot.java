@@ -35,7 +35,6 @@ public class DriveModeRobot extends LinearOpMode {
     fR.setDirection(DcMotorSimple.Direction.FORWARD);
     bR.setDirection(DcMotorSimple.Direction.FORWARD);
 
-
     waitForStart();
 
     double flP = 0;
@@ -44,22 +43,25 @@ public class DriveModeRobot extends LinearOpMode {
     double brP = 0;
 
     while (opModeIsActive()) {
-
-      flP = getGamepadMoveMagnitude(gamepad1) *
-              Math.sin(getGamepadMoveAngle(gamepad1) + (Math.PI / 4)) +
-              getGamepadTurnMagnitude(gamepad1);
+      flP =
+        getGamepadMoveMagnitude(gamepad1) *
+        Math.sin(getGamepadMoveAngle(gamepad1) + (Math.PI / 4)) +
+        getGamepadTurnMagnitude(gamepad1);
       fL.setPower(flP);
-      blP = getGamepadMoveMagnitude(gamepad1) *
-              Math.sin(getGamepadMoveAngle(gamepad1) - (Math.PI / 4)) +
-              getGamepadTurnMagnitude(gamepad1);
+      blP =
+        getGamepadMoveMagnitude(gamepad1) *
+        Math.sin(getGamepadMoveAngle(gamepad1) - (Math.PI / 4)) +
+        getGamepadTurnMagnitude(gamepad1);
       bL.setPower(blP);
-      frP = getGamepadMoveMagnitude(gamepad1) *
-              Math.sin(getGamepadMoveAngle(gamepad1) + (Math.PI / 4)) -
-              getGamepadTurnMagnitude(gamepad1);
+      frP =
+        getGamepadMoveMagnitude(gamepad1) *
+        Math.sin(getGamepadMoveAngle(gamepad1) + (Math.PI / 4)) -
+        getGamepadTurnMagnitude(gamepad1);
       fR.setPower(frP);
-      brP = getGamepadMoveMagnitude(gamepad1) *
-              Math.sin(getGamepadMoveAngle(gamepad1) - (Math.PI / 4)) -
-              getGamepadTurnMagnitude(gamepad1);
+      brP =
+        getGamepadMoveMagnitude(gamepad1) *
+        Math.sin(getGamepadMoveAngle(gamepad1) - (Math.PI / 4)) -
+        getGamepadTurnMagnitude(gamepad1);
       bR.setPower(brP);
       telemetry.addData("Front Left", flP);
       telemetry.addData("Front Right", frP);

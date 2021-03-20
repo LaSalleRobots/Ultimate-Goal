@@ -47,22 +47,30 @@ public class DriveModeFieldIMU extends LinearOpMode {
     while (opModeIsActive()) {
       fL.setPower(
         getGamepadMoveMagnitude(gamepad1) *
-        Math.sin((getGamepadMoveAngle(gamepad1) - getRobotHeading()) + (Math.PI / 4)) +
+        Math.sin(
+          (getGamepadMoveAngle(gamepad1) - getRobotHeading()) + (Math.PI / 4)
+        ) +
         getGamepadTurnMagnitude(gamepad1)
       );
       bL.setPower(
         getGamepadMoveMagnitude(gamepad1) *
-        Math.sin((getGamepadMoveAngle(gamepad1) - getRobotHeading()) - (Math.PI / 4)) +
+        Math.sin(
+          (getGamepadMoveAngle(gamepad1) - getRobotHeading()) - (Math.PI / 4)
+        ) +
         getGamepadTurnMagnitude(gamepad1)
       );
       fR.setPower(
         getGamepadMoveMagnitude(gamepad1) *
-        Math.sin((getGamepadMoveAngle(gamepad1) - getRobotHeading()) + (Math.PI / 4)) -
+        Math.sin(
+          (getGamepadMoveAngle(gamepad1) - getRobotHeading()) + (Math.PI / 4)
+        ) -
         getGamepadTurnMagnitude(gamepad1)
       );
       bR.setPower(
         getGamepadMoveMagnitude(gamepad1) *
-        Math.sin((getGamepadMoveAngle(gamepad1) - getRobotHeading()) - (Math.PI / 4)) -
+        Math.sin(
+          (getGamepadMoveAngle(gamepad1) - getRobotHeading()) - (Math.PI / 4)
+        ) -
         getGamepadTurnMagnitude(gamepad1)
       );
     }
