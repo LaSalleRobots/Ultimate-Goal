@@ -1,8 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
-/* 2019-2020 FTC Robotics Skystone
+/* 2019-2020 FTC Robotics Ultimate-Goal
  * (c) 2019-2020 La Salle Robotics
- * Developed for the Skystone competition
+ * Developed for the Ultimate Goal competition
  */
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -12,7 +12,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class RoboHelper {
 
-  private HardwareMap hardwareMap;
   private ElapsedTime runtime;
 
   //setup motors
@@ -21,38 +20,44 @@ public class RoboHelper {
   private DcMotor leftBack = null;
   private DcMotor rightBack = null;
 
-  //Setup claw servos variables
-  public Servo plateGrabber = null;
-  public Servo plateGrabber2 = null;
 
-  //
   private double fixionCoef = 1.75; //the distance the robot goes in 1 second (in feet)
 
-  private double power = 0.5;
-  public double leftFrontPower = 0.5;
-  public double rightFrontPower = 0.5;
-  public double leftBackPower = 0.5;
-  public double rightBackPower = 0.5;
-  public boolean closedMover = false;
+  public double flP = 0;
+  public double blP = 0;
+  public double frP = 0;
+  public double brP = 0;
 
   //setup class initializer
   public RoboHelper(HardwareMap hardwareMap, ElapsedTime runtime) {
-    this.hardwareMap = hardwareMap;
     this.runtime = runtime;
 
     //setup motors
-    this.leftFront = hardwareMap.get(DcMotor.class, "leftFront");
-    this.rightFront = hardwareMap.get(DcMotor.class, "rightFront");
-    this.leftBack = hardwareMap.get(DcMotor.class, "leftBack");
-    this.rightBack = hardwareMap.get(DcMotor.class, "rightBack");
-    this.plateGrabber = hardwareMap.get(Servo.class, "plateGrabber");
-    this.plateGrabber2 = hardwareMap.get(Servo.class, "plateGrabber2");
+    this.leftFront = hardwareMap.get(DcMotor.class, "fL");
+    this.rightFront = hardwareMap.get(DcMotor.class, "fR");
+    this.leftBack = hardwareMap.get(DcMotor.class, "bL");
+    this.rightBack = hardwareMap.get(DcMotor.class, "bR");
 
     //Set Directions
     this.leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
-    this.rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
-    this.leftBack.setDirection(DcMotorSimple.Direction.FORWARD);
+    this.rightFront.setDirection(DcMotorSimple.Direction.FORWARD);
+    this.leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
     this.rightBack.setDirection(DcMotorSimple.Direction.FORWARD);
+  }
+
+  public double magnitude(double x, double y) {
+    return -Math.hypot(x, y);	
+  }
+
+  public double angle(double x, double y) {
+    return Math.atan2(y, x);
+  }
+
+  public void calculateDirections(double x, double y, double turn) {
+   flP = magnitude(x,y) * Math.sin(angle(x,y) + (Math.PI / 4)) + turn;
+   blP = magnitude(x,y) * Math.sin(angle(x,y) - (Math.PI / 4)) + turn;
+   frP = magnitude(x,y) * Math.sin(angle(x,y) + (Math.PI / 4)) - turn;
+   brP = magnitude(x,y) * Math.sin(angle(x,y) - (Math.PI / 4)) - turn;
   }
 
   public void sleep(double sleepTime) {
@@ -64,18 +69,6 @@ public class RoboHelper {
     }
   }
 
-  public void togglePlateGrabber() {
-    if (closedMover) {
-      plateGrabber.setPosition(0.8);
-      plateGrabber2.setPosition(0.2);
-      closedMover = false;
-    } else {
-      plateGrabber.setPosition(0.2);
-      plateGrabber2.setPosition(0.8);
-      closedMover = true;
-    }
-  }
-
   public void powerOff() {
     leftFront.setPower(0);
     rightFront.setPower(0);
@@ -84,113 +77,84 @@ public class RoboHelper {
   }
 
   public void applyPower() {
-    leftFront.setPower(leftFrontPower);
-    rightFront.setPower(rightFrontPower);
-    leftBack.setPower(leftBackPower);
-    rightBack.setPower(rightBackPower);
+    leftFront.setPower(flP);
+    rightFront.setPower(frP);
+    leftBack.setPower(blP);
+    rightBack.setPower(brP);
   }
 
-  public void runFor(double runTime) {
+  public RoboHelper runFor(double runTime) {
     applyPower();
     sleep(runTime);
     powerOff();
+    return this;
   }
 
-  public void runDist(double runningDistance) {
+  public RoboHelper runDist(double runningDistance) {
     applyPower();
     sleep(runningDistance * fixionCoef);
     powerOff();
+    return this;
   }
 
-  public void moveForwards() {
-    rightFrontPower = -1;
-    rightBackPower = 1;
-
-    leftFrontPower = 1;
-    leftBackPower = -1;
+  public RoboHelper moveForwards() {
+    calculateDirections(0, -1, 0);
+    applyPower();
+    return this;
   }
 
-  public void moveBackwards() {
-    rightFrontPower = 1;
-    rightBackPower = -1;
-
-    leftFrontPower = -1;
-    leftBackPower = 1;
+  public RoboHelper moveBackwards() {
+    calculateDirections(0, -1, 0);
+    applyPower();
+    return this;
   }
 
-  public void moveLeft() {
-    rightFrontPower = -1;
-    rightBackPower = -1;
-
-    leftFrontPower = -1;
-    leftBackPower = -1;
+  public RoboHelper moveLeft() {
+    calculateDirections(-1, 0, 0);
+    applyPower();
+    return this;
   }
 
-  public void moveRight() {
-    rightFrontPower = 1;
-    rightBackPower = 1;
-
-    leftFrontPower = 1;
-    leftBackPower = 1;
+  public RoboHelper moveRight() {
+    calculateDirections(1, 0, 0);
+    applyPower();
+    return this;
   }
 
-  public void moveBackwardsLeft() {
-    rightFrontPower = -1;
-    rightBackPower = 0;
-
-    leftFrontPower = 0;
-    leftBackPower = -1;
+  public RoboHelper moveBackwardsLeft() {
+    calculateDirections(-1, -1, 0);
+    applyPower();
+    return this;
   }
 
-  public void moveBackwardsRight() {
-    rightFrontPower = 0;
-    rightBackPower = 1;
-
-    leftFrontPower = 1;
-    leftBackPower = 0;
+  public RoboHelper moveBackwardsRight() {
+    calculateDirections(1, -1, 0);
+    applyPower();
+    return this;
   }
 
-  public void moveForwardsLeft() {
-    rightFrontPower = 0;
-    rightBackPower = -1;
-
-    leftFrontPower = -1;
-    leftBackPower = 0;
+  public RoboHelper moveForwardsLeft() {
+    calculateDirections(-1, 1, 0);
+    applyPower();
+    return this;
   }
 
-  public void moveForwardsRight() {
-    rightFrontPower = 1;
-    rightBackPower = 0;
-
-    leftFrontPower = 0;
-    leftBackPower = 1;
+  public RoboHelper moveForwardsRight() {
+    calculateDirections(1, 1, 0);
+    applyPower();
+    return this;
   }
 
-  public void rotateLeft() {
-    leftFrontPower = -1;
-    rightFrontPower = -1;
-    leftBackPower = 1;
-    rightBackPower = 1;
+  public RoboHelper rotateLeft() {
+    calculateDirections(0,0,-1);
+    applyPower();
+    return this;
   }
 
-  public void rotateRight() {
-    leftFrontPower = 1;
-    rightFrontPower = 1;
-    leftBackPower = -1;
-    rightBackPower = -1;
+  public RoboHelper rotateRight() {
+    calculateDirections(0,0,1);
+    applyPower();
+    return this;
   }
 
-  public void slowScanRight() {
-    leftFrontPower = 0.25;
-    rightFrontPower = 0.25;
-    leftBackPower = -0.25;
-    rightBackPower = -0.25;
-  }
-
-  public void slowScanLeft() {
-    leftFrontPower = -0.25;
-    rightFrontPower = -0.25;
-    leftBackPower = 0.25;
-    rightBackPower = 0.25;
-  }
 }
