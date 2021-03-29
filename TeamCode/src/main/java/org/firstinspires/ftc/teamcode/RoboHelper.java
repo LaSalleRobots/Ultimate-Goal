@@ -20,7 +20,6 @@ public class RoboHelper {
   private DcMotor leftBack = null;
   private DcMotor rightBack = null;
 
-
   private double fixionCoef = 1.75; //the distance the robot goes in 1 second (in feet)
 
   public double flP = 0;
@@ -46,7 +45,7 @@ public class RoboHelper {
   }
 
   public double magnitude(double x, double y) {
-    return -Math.hypot(x, y);	
+    return -Math.hypot(x, y);
   }
 
   public double angle(double x, double y) {
@@ -54,10 +53,10 @@ public class RoboHelper {
   }
 
   public void calculateDirections(double x, double y, double turn) {
-   flP = magnitude(x,y) * Math.sin(angle(x,y) + (Math.PI / 4)) + turn;
-   blP = magnitude(x,y) * Math.sin(angle(x,y) - (Math.PI / 4)) + turn;
-   frP = magnitude(x,y) * Math.sin(angle(x,y) + (Math.PI / 4)) - turn;
-   brP = magnitude(x,y) * Math.sin(angle(x,y) - (Math.PI / 4)) - turn;
+    flP = magnitude(x, y) * Math.sin(angle(x, y) + (Math.PI / 4)) + turn;
+    blP = magnitude(x, y) * Math.sin(angle(x, y) - (Math.PI / 4)) + turn;
+    frP = magnitude(x, y) * Math.sin(angle(x, y) + (Math.PI / 4)) - turn;
+    brP = magnitude(x, y) * Math.sin(angle(x, y) - (Math.PI / 4)) - turn;
   }
 
   public void sleep(double sleepTime) {
@@ -146,15 +145,14 @@ public class RoboHelper {
   }
 
   public RoboHelper rotateLeft() {
-    calculateDirections(0,0,-1);
+    calculateDirections(0, 0, -1);
     applyPower();
     return this;
   }
 
   public RoboHelper rotateRight() {
-    calculateDirections(0,0,1);
+    calculateDirections(0, 0, 1);
     applyPower();
     return this;
   }
-
 }
