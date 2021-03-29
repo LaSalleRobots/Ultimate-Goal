@@ -36,20 +36,21 @@ import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
- * This OpMode illustrates using the Device Interface Module as a signalling device.
- * The code is structured as a LinearOpMode
+ * This OpMode illustrates using the Device Interface Module as a signalling device. The code is
+ * structured as a LinearOpMode
  *
- * This code assumes a DIM name "dim".
+ * <p>This code assumes a DIM name "dim".
  *
- * There are many examples where the robot might like to signal the driver, without requiring them
- * to look at the driver station.  This might be something like a "ball in hopper" condition or a
- * "ready to shoot" condition.
+ * <p>There are many examples where the robot might like to signal the driver, without requiring
+ * them to look at the driver station. This might be something like a "ball in hopper" condition or
+ * a "ready to shoot" condition.
  *
- * The DIM has two user settable indicator LEDs (one red one blue).  These can be controlled
+ * <p>The DIM has two user settable indicator LEDs (one red one blue). These can be controlled
  * directly from your program.
  *
- * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
+ * <p>Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new
+ * name. Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode
+ * list
  */
 @TeleOp(name = "Concept: DIM As Indicator", group = "Concept")
 @Disabled

@@ -5,7 +5,7 @@ import com.qualcomm.ftccommon.SoundPlayer;
 
 public class RecordPlayer {
 
-  //setup class initalization
+  // setup class initalization
   public RecordPlayer(Context context) {
     this.myApp = context;
   }
@@ -40,35 +40,26 @@ public class RecordPlayer {
   }
 
   public void playSound(String soundName) {
-    //Context myApp = hardwareMap.appContext;
+    // Context myApp = hardwareMap.appContext;
     SoundPlayer.PlaySoundParams params = new SoundPlayer.PlaySoundParams();
     params.loopControl = 0;
     params.waitForNonLoopingSoundsToFinish = true;
 
     if (!playing) {
       playing = true;
-      if (
-        (
-          soundID =
-            myApp
-              .getResources()
-              .getIdentifier(soundName, "raw", myApp.getPackageName())
-        ) !=
-        0
-      ) {
-        com.qualcomm.ftccommon.SoundPlayer
-          .getInstance()
-          .startPlaying(
-            myApp,
-            soundID,
-            params,
-            null,
-            new Runnable() {
-              public void run() {
-                playing = false;
-              }
-            }
-          );
+      if ((soundID = myApp.getResources().getIdentifier(soundName, "raw", myApp.getPackageName()))
+          != 0) {
+        com.qualcomm.ftccommon.SoundPlayer.getInstance()
+            .startPlaying(
+                myApp,
+                soundID,
+                params,
+                null,
+                new Runnable() {
+                  public void run() {
+                    playing = false;
+                  }
+                });
       }
     }
   }

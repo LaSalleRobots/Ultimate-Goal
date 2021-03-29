@@ -10,26 +10,21 @@ import org.openftc.easyopencv.*;
 public class OpenCVPipelineRunner {
 
   private OpenCvTrackerApiPipeline openCvTrackerApiPipeline;
-  /**
-   * The phonecam module @see org.openftc.easyopencv.OpenCvInternalCamera
-   */
+  /** The phonecam module @see org.openftc.easyopencv.OpenCvInternalCamera */
   public OpenCvInternalCamera phoneCam;
 
   OpenCVPipelineRunner(HardwareMap hardwareMap, OpenCvTracker... trackers) {
-    int cameraMonitorViewId = hardwareMap.appContext
-      .getResources()
-      .getIdentifier(
-        "cameraMonitorViewId",
-        "id",
-        hardwareMap.appContext.getPackageName()
-      ); // for camera preview
+    int cameraMonitorViewId =
+        hardwareMap
+            .appContext
+            .getResources()
+            .getIdentifier(
+                "cameraMonitorViewId",
+                "id",
+                hardwareMap.appContext.getPackageName()); // for camera preview
     phoneCam =
-      OpenCvCameraFactory
-        .getInstance()
-        .createInternalCamera(
-          OpenCvInternalCamera.CameraDirection.BACK,
-          cameraMonitorViewId
-        );
+        OpenCvCameraFactory.getInstance()
+            .createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
     phoneCam.openCameraDevice();
     openCvTrackerApiPipeline = new OpenCvTrackerApiPipeline();
     phoneCam.setPipeline(openCvTrackerApiPipeline);
@@ -49,11 +44,7 @@ public class OpenCVPipelineRunner {
      * (default) or single buffering. See the JavaDoc for this method for more details
      */
     phoneCam.startStreaming(
-      640,
-      480,
-      OpenCvCameraRotation.SIDEWAYS_LEFT,
-      OpenCvInternalCamera.BufferMethod.DOUBLE
-    );
+        640, 480, OpenCvCameraRotation.SIDEWAYS_LEFT, OpenCvInternalCamera.BufferMethod.DOUBLE);
   }
 
   public void start() {

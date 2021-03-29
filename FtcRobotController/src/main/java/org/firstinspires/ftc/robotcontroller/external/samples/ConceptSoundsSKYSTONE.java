@@ -36,17 +36,17 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 /**
- * This file demonstrates how to play one of the several SKYSTONE/Star Wars sounds loaded into the SDK.
- * It does this by creating a simple "chooser" controlled by the gamepad Up Down buttons.
- * This code also prevents sounds from stacking up by setting a "playing" flag, which is cleared when the sound finishes playing.
+ * This file demonstrates how to play one of the several SKYSTONE/Star Wars sounds loaded into the
+ * SDK. It does this by creating a simple "chooser" controlled by the gamepad Up Down buttons. This
+ * code also prevents sounds from stacking up by setting a "playing" flag, which is cleared when the
+ * sound finishes playing.
  *
- * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
+ * <p>Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new
+ * name. Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode
+ * list
  *
- * Operation:
- *      Use the DPAD to change the selected sound, and the Right Bumper to play it.
+ * <p>Operation: Use the DPAD to change the selected sound, and the Right Bumper to play it.
  */
-
 @TeleOp(name = "SKYSTONE Sounds", group = "Concept")
 @Disabled
 public class ConceptSoundsSKYSTONE extends LinearOpMode {
@@ -89,7 +89,8 @@ public class ConceptSoundsSKYSTONE extends LinearOpMode {
     params.loopControl = 0;
     params.waitForNonLoopingSoundsToFinish = true;
 
-    // In this sample, we will skip waiting for the user to press play, and start displaying sound choices right away
+    // In this sample, we will skip waiting for the user to press play, and start displaying sound
+    // choices right away
     while (!isStopRequested()) {
       // Look for DPAD presses to change the selection
       if (gamepad1.dpad_down && !was_dpad_down) {
@@ -106,36 +107,27 @@ public class ConceptSoundsSKYSTONE extends LinearOpMode {
       // Only start a new sound if we are currently not playing one.
       if (gamepad1.right_bumper && !soundPlaying) {
         // Determine Resource IDs for the sounds you want to play, and make sure it's valid.
-        if (
-          (
-            soundID =
-              myApp
-                .getResources()
-                .getIdentifier(
-                  sounds[soundIndex],
-                  "raw",
-                  myApp.getPackageName()
-                )
-          ) !=
-          0
-        ) {
+        if ((soundID =
+                myApp
+                    .getResources()
+                    .getIdentifier(sounds[soundIndex], "raw", myApp.getPackageName()))
+            != 0) {
           // Signal that the sound is now playing.
           soundPlaying = true;
 
-          // Start playing, and also Create a callback that will clear the playing flag when the sound is complete.
-          SoundPlayer
-            .getInstance()
-            .startPlaying(
-              myApp,
-              soundID,
-              params,
-              null,
-              new Runnable() {
-                public void run() {
-                  soundPlaying = false;
-                }
-              }
-            );
+          // Start playing, and also Create a callback that will clear the playing flag when the
+          // sound is complete.
+          SoundPlayer.getInstance()
+              .startPlaying(
+                  myApp,
+                  soundID,
+                  params,
+                  null,
+                  new Runnable() {
+                    public void run() {
+                      soundPlaying = false;
+                    }
+                  });
         }
       }
 

@@ -7,7 +7,6 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 
 import com.acmerobotics.dashboard.FtcDashboard;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import java.util.ArrayList;
@@ -23,44 +22,44 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 /**
  * This 2020-2021 OpMode illustrates the basics of using the Vuforia localizer to determine
- * positioning and orientation of robot on the ULTIMATE GOAL FTC field.
- * The code is structured as a LinearOpMode
+ * positioning and orientation of robot on the ULTIMATE GOAL FTC field. The code is structured as a
+ * LinearOpMode
  *
- * When images are located, Vuforia is able to determine the position and orientation of the
- * image relative to the camera.  This sample code then combines that information with a
- * knowledge of where the target images are on the field, to determine the location of the camera.
+ * <p>When images are located, Vuforia is able to determine the position and orientation of the
+ * image relative to the camera. This sample code then combines that information with a knowledge of
+ * where the target images are on the field, to determine the location of the camera.
  *
- * From the Audience perspective, the Red Alliance station is on the right and the
- * Blue Alliance Station is on the left.
-
- * There are a total of five image targets for the ULTIMATE GOAL game.
- * Three of the targets are placed in the center of the Red Alliance, Audience (Front),
- * and Blue Alliance perimeter walls.
- * Two additional targets are placed on the perimeter wall, one in front of each Tower Goal.
- * Refer to the Field Setup manual for more specific location details
+ * <p>From the Audience perspective, the Red Alliance station is on the right and the Blue Alliance
+ * Station is on the left.
  *
- * A final calculation then uses the location of the camera on the robot to determine the
- * robot's location and orientation on the field.
+ * <p>There are a total of five image targets for the ULTIMATE GOAL game. Three of the targets are
+ * placed in the center of the Red Alliance, Audience (Front), and Blue Alliance perimeter walls.
+ * Two additional targets are placed on the perimeter wall, one in front of each Tower Goal. Refer
+ * to the Field Setup manual for more specific location details
+ *
+ * <p>A final calculation then uses the location of the camera on the robot to determine the robot's
+ * location and orientation on the field.
  *
  * @see VuforiaLocalizer
- * @see VuforiaTrackableDefaultListener
- * see  ultimategoal/doc/tutorial/FTC_FieldCoordinateSystemDefinition.pdf
- *
- * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list.
- *
- * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
- * is explained below.
+ * @see VuforiaTrackableDefaultListener see
+ *     ultimategoal/doc/tutorial/FTC_FieldCoordinateSystemDefinition.pdf
+ *     <p>Use Android Studio to Copy this Class, and Paste it into your team's code folder with a
+ *     new name. Remove or comment out the @Disabled line to add this opmode to the Driver Station
+ *     OpMode list.
+ *     <p>IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
+ *     is explained below.
  */
-
 @TeleOp(name = "VuforiaExample", group = "AI")
 public class VuforiaExample extends LinearOpMode {
 
-  // IMPORTANT:  For Phone Camera, set 1) the camera source and 2) the orientation, based on how your phone is mounted:
+  // IMPORTANT:  For Phone Camera, set 1) the camera source and 2) the orientation, based on how
+  // your phone is mounted:
   // 1) Camera Source.  Valid choices are:  BACK (behind screen) or FRONT (selfie side)
-  // 2) Phone Orientation. Choices are: PHONE_IS_PORTRAIT = true (portrait) or PHONE_IS_PORTRAIT = false (landscape)
+  // 2) Phone Orientation. Choices are: PHONE_IS_PORTRAIT = true (portrait) or PHONE_IS_PORTRAIT =
+  // false (landscape)
   //
-  // NOTE: If you are running on a CONTROL HUB, with only one USB WebCam, you must select CAMERA_CHOICE = BACK; and PHONE_IS_PORTRAIT = false;
+  // NOTE: If you are running on a CONTROL HUB, with only one USB WebCam, you must select
+  // CAMERA_CHOICE = BACK; and PHONE_IS_PORTRAIT = false;
   //
   private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
   private static final boolean PHONE_IS_PORTRAIT = false;
@@ -78,12 +77,14 @@ public class VuforiaExample extends LinearOpMode {
    * and paste it in to your code on the next line, between the double quotes.
    */
   private static final String VUFORIA_KEY =
-    "ATEunI3/////AAABmTcVGyhDpk/vjQi7sL+G3bkNZLIZNtw/qLByk8N+aFHflTAH7VSKoR4Cmzmgq62zIwg4ijmn/bzp1aCFu3u3S2aGfK0fBzUmddZV8n1+vO2sA4RRALRfeGnv/5UWQHXcqPg1Jz3yysRBhu4ur0g7FadQJq0sTfcoWWsELgQYAeFwsZSl+ktrswOc+SUyhrlJUDJijBL4y2kH4/3aeGYsQhQRVW/0EvSmbPuwMa+6Yo7u1f13PKEOdPWbJYybeGPjybwKrptzgTyNLhSoFqIFiUA8Ft1UD9IalVhGlEsHy6KBcWkvCxGJZBvANancvdTJ0O2Ux2pYsAllxQ+h2oR925ND/oeK5Mgno13LfBKkrm2B";
+      "ATEunI3/////AAABmTcVGyhDpk/vjQi7sL+G3bkNZLIZNtw/qLByk8N+aFHflTAH7VSKoR4Cmzmgq62zIwg4ijmn/bzp1aCFu3u3S2aGfK0fBzUmddZV8n1+vO2sA4RRALRfeGnv/5UWQHXcqPg1Jz3yysRBhu4ur0g7FadQJq0sTfcoWWsELgQYAeFwsZSl+ktrswOc+SUyhrlJUDJijBL4y2kH4/3aeGYsQhQRVW/0EvSmbPuwMa+6Yo7u1f13PKEOdPWbJYybeGPjybwKrptzgTyNLhSoFqIFiUA8Ft1UD9IalVhGlEsHy6KBcWkvCxGJZBvANancvdTJ0O2Ux2pYsAllxQ+h2oR925ND/oeK5Mgno13LfBKkrm2B";
 
-  // Since ImageTarget trackables use mm to specifiy their dimensions, we must use mm for all the physical dimension.
+  // Since ImageTarget trackables use mm to specifiy their dimensions, we must use mm for all the
+  // physical dimension.
   // We will define some constants and conversions here
   private static final float mmPerInch = 25.4f;
-  private static final float mmTargetHeight = (6) * mmPerInch; // the height of the center of the target image above the floor
+  private static final float mmTargetHeight =
+      (6) * mmPerInch; // the height of the center of the target image above the floor
 
   // Constants for perimeter targets
   private static final float halfField = 72 * mmPerInch;
@@ -105,16 +106,12 @@ public class VuforiaExample extends LinearOpMode {
      * We can pass Vuforia the handle to a camera preview resource (on the RC phone);
      * If no camera monitor is desired, use the parameter-less constructor instead (commented out below).
      */
-    int cameraMonitorViewId = hardwareMap.appContext
-      .getResources()
-      .getIdentifier(
-        "cameraMonitorViewId",
-        "id",
-        hardwareMap.appContext.getPackageName()
-      );
-    VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(
-      cameraMonitorViewId
-    );
+    int cameraMonitorViewId =
+        hardwareMap
+            .appContext
+            .getResources()
+            .getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+    VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
 
     // VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
@@ -129,8 +126,7 @@ public class VuforiaExample extends LinearOpMode {
 
     // Load the data sets for the trackable objects. These particular data
     // sets are stored in the 'assets' part of our application.
-    VuforiaTrackables targetsUltimateGoal =
-      this.vuforia.loadTrackablesFromAsset("UltimateGoal");
+    VuforiaTrackables targetsUltimateGoal = this.vuforia.loadTrackablesFromAsset("UltimateGoal");
     VuforiaTrackable blueTowerGoalTarget = targetsUltimateGoal.get(0);
     blueTowerGoalTarget.setName("Blue Tower Goal Target");
     VuforiaTrackable redTowerGoalTarget = targetsUltimateGoal.get(1);
@@ -142,59 +138,50 @@ public class VuforiaExample extends LinearOpMode {
     VuforiaTrackable frontWallTarget = targetsUltimateGoal.get(4);
     frontWallTarget.setName("Front Wall Target");
 
-    // For convenience, gather together all the trackable objects in one easily-iterable collection */
+    // For convenience, gather together all the trackable objects in one easily-iterable collection
+    // */
     List<VuforiaTrackable> allTrackables = new ArrayList<VuforiaTrackable>();
     allTrackables.addAll(targetsUltimateGoal);
 
     /**
-     * In order for localization to work, we need to tell the system where each target is on the field, and
-     * where the phone resides on the robot.  These specifications are in the form of <em>transformation matrices.</em>
-     * Transformation matrices are a central, important concept in the math here involved in localization.
-     * See <a href="https://en.wikipedia.org/wiki/Transformation_matrix">Transformation Matrix</a>
-     * for detailed information. Commonly, you'll encounter transformation matrices as instances
-     * of the {@link OpenGLMatrix} class.
+     * In order for localization to work, we need to tell the system where each target is on the
+     * field, and where the phone resides on the robot. These specifications are in the form of
+     * <em>transformation matrices.</em> Transformation matrices are a central, important concept in
+     * the math here involved in localization. See <a
+     * href="https://en.wikipedia.org/wiki/Transformation_matrix">Transformation Matrix</a> for
+     * detailed information. Commonly, you'll encounter transformation matrices as instances of the
+     * {@link OpenGLMatrix} class.
      *
-     * If you are standing in the Red Alliance Station looking towards the center of the field,
-     *     - The X axis runs from your left to the right. (positive from the center to the right)
-     *     - The Y axis runs from the Red Alliance Station towards the other side of the field
-     *       where the Blue Alliance Station is. (Positive is from the center, towards the BlueAlliance station)
-     *     - The Z axis runs from the floor, upwards towards the ceiling.  (Positive is above the floor)
+     * <p>If you are standing in the Red Alliance Station looking towards the center of the field, -
+     * The X axis runs from your left to the right. (positive from the center to the right) - The Y
+     * axis runs from the Red Alliance Station towards the other side of the field where the Blue
+     * Alliance Station is. (Positive is from the center, towards the BlueAlliance station) - The Z
+     * axis runs from the floor, upwards towards the ceiling. (Positive is above the floor)
      *
-     * Before being transformed, each target image is conceptually located at the origin of the field's
-     *  coordinate system (the center of the field), facing up.
+     * <p>Before being transformed, each target image is conceptually located at the origin of the
+     * field's coordinate system (the center of the field), facing up.
      */
 
-    //Set the position of the perimeter targets with relation to origin (center of field)
+    // Set the position of the perimeter targets with relation to origin (center of field)
     redAllianceTarget.setLocation(
-      OpenGLMatrix
-        .translation(0, -halfField, mmTargetHeight)
-        .multiplied(
-          Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, 180)
-        )
-    );
+        OpenGLMatrix.translation(0, -halfField, mmTargetHeight)
+            .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, 180)));
 
-    //blueAllianceTarget.setLocation(OpenGLMatrix
+    // blueAllianceTarget.setLocation(OpenGLMatrix
     //        .translation(0, halfField, mmTargetHeight)
     //        .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, 0)));
     frontWallTarget.setLocation(
-      OpenGLMatrix
-        .translation(-halfField, 0, mmTargetHeight)
-        .multiplied(
-          Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, 90)
-        )
-    );
+        OpenGLMatrix.translation(-halfField, 0, mmTargetHeight)
+            .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, 90)));
 
-    // The tower goal targets are located a quarter field length from the ends of the back perimeter wall.
-    //blueTowerGoalTarget.setLocation(OpenGLMatrix
+    // The tower goal targets are located a quarter field length from the ends of the back perimeter
+    // wall.
+    // blueTowerGoalTarget.setLocation(OpenGLMatrix
     //        .translation(halfField, quadField, mmTargetHeight)
     //        .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0 , -90)));
     redTowerGoalTarget.setLocation(
-      OpenGLMatrix
-        .translation(halfField, -quadField, mmTargetHeight)
-        .multiplied(
-          Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, -90)
-        )
-    );
+        OpenGLMatrix.translation(halfField, -quadField, mmTargetHeight)
+            .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, -90)));
 
     //
     // Create a transformation matrix describing where the phone is on the robot.
@@ -203,10 +190,12 @@ public class VuforiaExample extends LinearOpMode {
     // Lock it into Portrait for these numbers to work.
     //
     // Info:  The coordinate frame for the robot looks the same as the field.
-    // The robot's "forward" direction is facing out along X axis, with the LEFT side facing out along the Y axis.
+    // The robot's "forward" direction is facing out along X axis, with the LEFT side facing out
+    // along the Y axis.
     // Z is UP on the robot.  This equates to a bearing angle of Zero degrees.
     //
-    // The phone starts out lying flat, with the screen facing Up and with the physical top of the phone
+    // The phone starts out lying flat, with the screen facing Up and with the physical top of the
+    // phone
     // pointing to the LEFT side of the Robot.
     // The two examples below assume that the camera is facing forward out the front of the robot.
 
@@ -223,38 +212,32 @@ public class VuforiaExample extends LinearOpMode {
     }
 
     // Next, translate the camera lens to where it is on the robot.
-    // In this example, it is centered (left to right), but forward of the middle of the robot, and above ground level.
-    final float CAMERA_FORWARD_DISPLACEMENT = 4.0f * mmPerInch; // eg: Camera is 4 Inches in front of robot center
-    final float CAMERA_VERTICAL_DISPLACEMENT = 8.0f * mmPerInch; // eg: Camera is 8 Inches above ground
+    // In this example, it is centered (left to right), but forward of the middle of the robot, and
+    // above ground level.
+    final float CAMERA_FORWARD_DISPLACEMENT =
+        4.0f * mmPerInch; // eg: Camera is 4 Inches in front of robot center
+    final float CAMERA_VERTICAL_DISPLACEMENT =
+        8.0f * mmPerInch; // eg: Camera is 8 Inches above ground
     final float CAMERA_LEFT_DISPLACEMENT = 0; // eg: Camera is ON the robot's center line
 
-    OpenGLMatrix robotFromCamera = OpenGLMatrix
-      .translation(
-        CAMERA_FORWARD_DISPLACEMENT,
-        CAMERA_LEFT_DISPLACEMENT,
-        CAMERA_VERTICAL_DISPLACEMENT
-      )
-      .multiplied(
-        Orientation.getRotationMatrix(
-          EXTRINSIC,
-          YZX,
-          DEGREES,
-          phoneYRotate,
-          phoneZRotate,
-          phoneXRotate
-        )
-      );
+    OpenGLMatrix robotFromCamera =
+        OpenGLMatrix.translation(
+                CAMERA_FORWARD_DISPLACEMENT, CAMERA_LEFT_DISPLACEMENT, CAMERA_VERTICAL_DISPLACEMENT)
+            .multiplied(
+                Orientation.getRotationMatrix(
+                    EXTRINSIC, YZX, DEGREES, phoneYRotate, phoneZRotate, phoneXRotate));
 
-    /**  Let all the trackable listeners know where the phone is.  */
+    /** Let all the trackable listeners know where the phone is. */
     for (VuforiaTrackable trackable : allTrackables) {
-      (
-        (VuforiaTrackableDefaultListener) trackable.getListener()
-      ).setPhoneInformation(robotFromCamera, parameters.cameraDirection);
+      ((VuforiaTrackableDefaultListener) trackable.getListener())
+          .setPhoneInformation(robotFromCamera, parameters.cameraDirection);
     }
 
     // WARNING:
-    // In this sample, we do not wait for PLAY to be pressed.  Target Tracking is started immediately when INIT is pressed.
-    // This sequence is used to enable the new remote DS Camera Preview feature to be used with this sample.
+    // In this sample, we do not wait for PLAY to be pressed.  Target Tracking is started
+    // immediately when INIT is pressed.
+    // This sequence is used to enable the new remote DS Camera Preview feature to be used with this
+    // sample.
     // CONSEQUENTLY do not put any driving commands in this loop.
     // To restore the normal opmode structure, just un-comment the following line:
 
@@ -271,20 +254,14 @@ public class VuforiaExample extends LinearOpMode {
       // check all the trackable targets to see which one (if any) is visible.
       targetVisible = false;
       for (VuforiaTrackable trackable : allTrackables) {
-        if (
-          (
-            (VuforiaTrackableDefaultListener) trackable.getListener()
-          ).isVisible()
-        ) {
+        if (((VuforiaTrackableDefaultListener) trackable.getListener()).isVisible()) {
           telemetry.addData("Visible Target", trackable.getName());
           targetVisible = true;
 
           // getUpdatedRobotLocation() will return null if no new information is available since
           // the last time that call was made, or if the trackable is not currently visible.
           OpenGLMatrix robotLocationTransform =
-            (
-              (VuforiaTrackableDefaultListener) trackable.getListener()
-            ).getUpdatedRobotLocation();
+              ((VuforiaTrackableDefaultListener) trackable.getListener()).getUpdatedRobotLocation();
           if (robotLocationTransform != null) {
             lastLocation = robotLocationTransform;
           }
@@ -297,27 +274,20 @@ public class VuforiaExample extends LinearOpMode {
         // express position (translation) of robot in inches.
         VectorF translation = lastLocation.getTranslation();
         telemetry.addData(
-          "Pos (in)",
-          "{X, Y, Z} = %.1f, %.1f, %.1f",
-          translation.get(0) / mmPerInch,
-          translation.get(1) / mmPerInch,
-          translation.get(2) / mmPerInch
-        );
+            "Pos (in)",
+            "{X, Y, Z} = %.1f, %.1f, %.1f",
+            translation.get(0) / mmPerInch,
+            translation.get(1) / mmPerInch,
+            translation.get(2) / mmPerInch);
 
         // express the rotation of the robot in degrees.
-        Orientation rotation = Orientation.getOrientation(
-          lastLocation,
-          EXTRINSIC,
-          XYZ,
-          DEGREES
-        );
+        Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
         telemetry.addData(
-          "Rot (deg)",
-          "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f",
-          rotation.firstAngle,
-          rotation.secondAngle,
-          rotation.thirdAngle
-        );
+            "Rot (deg)",
+            "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f",
+            rotation.firstAngle,
+            rotation.secondAngle,
+            rotation.thirdAngle);
       } else {
         telemetry.addData("Visible Target", "none");
       }

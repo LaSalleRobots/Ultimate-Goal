@@ -37,16 +37,15 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 /**
- *
  * This OpMode executes a basic Tank Drive Teleop for a two wheeled robot using two REV SPARKminis.
  * To use this example, connect two REV SPARKminis into servo ports on the Expansion Hub. On the
  * robot configuration, use the drop down list under 'Servos' to select 'REV SPARKmini Controller'
  * and name them 'left_drive' and 'right_drive'.
  *
- * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
+ * <p>Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new
+ * name. Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode
+ * list
  */
-
 @TeleOp(name = "REV SPARKmini Simple Drive Example", group = "Concept")
 @Disabled
 public class ConceptRevSPARKMini extends LinearOpMode {
@@ -103,12 +102,7 @@ public class ConceptRevSPARKMini extends LinearOpMode {
 
       // Show the elapsed game time and wheel power.
       telemetry.addData("Status", "Run Time: " + runtime.toString());
-      telemetry.addData(
-        "Motors",
-        "left (%.2f), right (%.2f)",
-        leftPower,
-        rightPower
-      );
+      telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
       telemetry.update();
     }
   }

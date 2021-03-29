@@ -39,25 +39,17 @@ public class DriveModeFieldCV extends LinearOpMode {
     while (opModeIsActive()) {
       vision.tick();
       fL.setPower(
-        getGamepadMoveMagnitude(gamepad1) *
-        Math.sin(vision.robotPosition.heading + (Math.PI / 4)) +
-        getGamepadTurnMagnitude(gamepad1)
-      );
+          getGamepadMoveMagnitude(gamepad1) * Math.sin(vision.robotPosition.heading + (Math.PI / 4))
+              + getGamepadTurnMagnitude(gamepad1));
       bL.setPower(
-        getGamepadMoveMagnitude(gamepad1) *
-        Math.sin(vision.robotPosition.heading - (Math.PI / 4)) +
-        getGamepadTurnMagnitude(gamepad1)
-      );
+          getGamepadMoveMagnitude(gamepad1) * Math.sin(vision.robotPosition.heading - (Math.PI / 4))
+              + getGamepadTurnMagnitude(gamepad1));
       fR.setPower(
-        getGamepadMoveMagnitude(gamepad1) *
-        Math.sin(vision.robotPosition.heading + (Math.PI / 4)) -
-        getGamepadTurnMagnitude(gamepad1)
-      );
+          getGamepadMoveMagnitude(gamepad1) * Math.sin(vision.robotPosition.heading + (Math.PI / 4))
+              - getGamepadTurnMagnitude(gamepad1));
       bR.setPower(
-        getGamepadMoveMagnitude(gamepad1) *
-        Math.sin(vision.robotPosition.heading - (Math.PI / 4)) -
-        getGamepadTurnMagnitude(gamepad1)
-      );
+          getGamepadMoveMagnitude(gamepad1) * Math.sin(vision.robotPosition.heading - (Math.PI / 4))
+              - getGamepadTurnMagnitude(gamepad1));
     }
   }
 }

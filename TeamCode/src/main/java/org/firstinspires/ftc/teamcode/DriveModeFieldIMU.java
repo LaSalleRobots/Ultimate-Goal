@@ -1,16 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.dashboard.config.Config;
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
-import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 @Config
 @TeleOp(name = "Driver Controlled (Field Centric [IMU])", group = "Driving")
@@ -46,33 +40,21 @@ public class DriveModeFieldIMU extends LinearOpMode {
 
     while (opModeIsActive()) {
       fL.setPower(
-        getGamepadMoveMagnitude(gamepad1) *
-        Math.sin(
-          (getGamepadMoveAngle(gamepad1) - getRobotHeading()) + (Math.PI / 4)
-        ) +
-        getGamepadTurnMagnitude(gamepad1)
-      );
+          getGamepadMoveMagnitude(gamepad1)
+                  * Math.sin((getGamepadMoveAngle(gamepad1) - getRobotHeading()) + (Math.PI / 4))
+              + getGamepadTurnMagnitude(gamepad1));
       bL.setPower(
-        getGamepadMoveMagnitude(gamepad1) *
-        Math.sin(
-          (getGamepadMoveAngle(gamepad1) - getRobotHeading()) - (Math.PI / 4)
-        ) +
-        getGamepadTurnMagnitude(gamepad1)
-      );
+          getGamepadMoveMagnitude(gamepad1)
+                  * Math.sin((getGamepadMoveAngle(gamepad1) - getRobotHeading()) - (Math.PI / 4))
+              + getGamepadTurnMagnitude(gamepad1));
       fR.setPower(
-        getGamepadMoveMagnitude(gamepad1) *
-        Math.sin(
-          (getGamepadMoveAngle(gamepad1) - getRobotHeading()) + (Math.PI / 4)
-        ) -
-        getGamepadTurnMagnitude(gamepad1)
-      );
+          getGamepadMoveMagnitude(gamepad1)
+                  * Math.sin((getGamepadMoveAngle(gamepad1) - getRobotHeading()) + (Math.PI / 4))
+              - getGamepadTurnMagnitude(gamepad1));
       bR.setPower(
-        getGamepadMoveMagnitude(gamepad1) *
-        Math.sin(
-          (getGamepadMoveAngle(gamepad1) - getRobotHeading()) - (Math.PI / 4)
-        ) -
-        getGamepadTurnMagnitude(gamepad1)
-      );
+          getGamepadMoveMagnitude(gamepad1)
+                  * Math.sin((getGamepadMoveAngle(gamepad1) - getRobotHeading()) - (Math.PI / 4))
+              - getGamepadTurnMagnitude(gamepad1));
     }
   }
 }

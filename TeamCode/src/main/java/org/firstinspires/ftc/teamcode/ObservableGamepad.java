@@ -13,7 +13,8 @@ public class ObservableGamepad extends Observable {
     try {
       this.current_state.copy(gp);
       this.last_state.copy(gp);
-    } catch (RobotCoreException e) {}
+    } catch (RobotCoreException e) {
+    }
   }
 
   public void tick(Gamepad gp) {
@@ -24,7 +25,8 @@ public class ObservableGamepad extends Observable {
       this.current_state.copy(gp);
       this.last_state.copy(current_state);
       notifyObservers(current_state);
-    } catch (RobotCoreException e) {}
+    } catch (RobotCoreException e) {
+    }
   }
 
   public Gamepad getGamepad() {

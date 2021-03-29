@@ -44,24 +44,24 @@ public class DriveModeRobot extends LinearOpMode {
 
     while (opModeIsActive()) {
       flP =
-        getGamepadMoveMagnitude(gamepad1) *
-        Math.sin(getGamepadMoveAngle(gamepad1) + (Math.PI / 4)) +
-        getGamepadTurnMagnitude(gamepad1);
+          getGamepadMoveMagnitude(gamepad1)
+                  * Math.sin(getGamepadMoveAngle(gamepad1) + (Math.PI / 4))
+              + getGamepadTurnMagnitude(gamepad1);
       fL.setPower(flP);
       blP =
-        getGamepadMoveMagnitude(gamepad1) *
-        Math.sin(getGamepadMoveAngle(gamepad1) - (Math.PI / 4)) +
-        getGamepadTurnMagnitude(gamepad1);
+          getGamepadMoveMagnitude(gamepad1)
+                  * Math.sin(getGamepadMoveAngle(gamepad1) - (Math.PI / 4))
+              + getGamepadTurnMagnitude(gamepad1);
       bL.setPower(blP);
       frP =
-        getGamepadMoveMagnitude(gamepad1) *
-        Math.sin(getGamepadMoveAngle(gamepad1) + (Math.PI / 4)) -
-        getGamepadTurnMagnitude(gamepad1);
+          getGamepadMoveMagnitude(gamepad1)
+                  * Math.sin(getGamepadMoveAngle(gamepad1) + (Math.PI / 4))
+              - getGamepadTurnMagnitude(gamepad1);
       fR.setPower(frP);
       brP =
-        getGamepadMoveMagnitude(gamepad1) *
-        Math.sin(getGamepadMoveAngle(gamepad1) - (Math.PI / 4)) -
-        getGamepadTurnMagnitude(gamepad1);
+          getGamepadMoveMagnitude(gamepad1)
+                  * Math.sin(getGamepadMoveAngle(gamepad1) - (Math.PI / 4))
+              - getGamepadTurnMagnitude(gamepad1);
       bR.setPower(brP);
       telemetry.addData("Front Left", flP);
       telemetry.addData("Front Right", frP);

@@ -8,7 +8,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.Quaternion;
  * Created by Archish on 10/28/16.
  * https://gist.github.com/archishou/9809c3111167f2889df4288c44b9345a
  */
-
 public class MasqAdafruitIMU {
 
   private final BNO055IMU imu;
@@ -24,10 +23,8 @@ public class MasqAdafruitIMU {
   private void setParameters() {
     BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
     parameters.useExternalCrystal = true;
-    parameters.angleUnit =
-      com.qualcomm.hardware.bosch.BNO055IMU.AngleUnit.RADIANS;
-    parameters.pitchMode =
-      com.qualcomm.hardware.bosch.BNO055IMU.PitchMode.WINDOWS;
+    parameters.angleUnit = com.qualcomm.hardware.bosch.BNO055IMU.AngleUnit.RADIANS;
+    parameters.pitchMode = com.qualcomm.hardware.bosch.BNO055IMU.PitchMode.WINDOWS;
     parameters.loggingEnabled = true;
     parameters.loggingTag = "IMU";
     imu.initialize(parameters);
@@ -40,17 +37,11 @@ public class MasqAdafruitIMU {
     double y = quatAngles.y;
     double z = quatAngles.z;
 
-    double roll =
-      Math.atan2(2 * (w * x + y * z), 1 - 2 * (x * x + y * y)) *
-      180.0 /
-      Math.PI;
+    double roll = Math.atan2(2 * (w * x + y * z), 1 - 2 * (x * x + y * y)) * 180.0 / Math.PI;
     double pitch = Math.asin(2 * (w * y - x * z)) * 180.0 / Math.PI;
-    double yaw =
-      Math.atan2(2 * (w * z + x * y), 1 - 2 * (y * y + z * z)) *
-      180.0 /
-      Math.PI;
+    double yaw = Math.atan2(2 * (w * z + x * y), 1 - 2 * (y * y + z * z)) * 180.0 / Math.PI;
 
-    return new double[] { yaw, pitch, roll };
+    return new double[] {yaw, pitch, roll};
   }
 
   public double adjustAngle(double angle) {

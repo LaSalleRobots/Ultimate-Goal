@@ -36,22 +36,21 @@ import com.qualcomm.robotcore.hardware.CompassSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
- * This file illustrates the concept of calibrating a MR Compass
- * It uses the common Pushbot hardware class to define the drive on the robot.
- * The code is structured as a LinearOpMode
+ * This file illustrates the concept of calibrating a MR Compass It uses the common Pushbot hardware
+ * class to define the drive on the robot. The code is structured as a LinearOpMode
  *
- *   This code assumes there is a compass configured with the name "compass"
+ * <p>This code assumes there is a compass configured with the name "compass"
  *
- *   This code will put the compass into calibration mode, wait three seconds and then attempt
- *   to rotate two full turns clockwise.  This will allow the compass to do a magnetic calibration.
+ * <p>This code will put the compass into calibration mode, wait three seconds and then attempt to
+ * rotate two full turns clockwise. This will allow the compass to do a magnetic calibration.
  *
- *   Once compete, the program will put the compass back into measurement mode and check to see if the
- *   calibration was successful.
+ * <p>Once compete, the program will put the compass back into measurement mode and check to see if
+ * the calibration was successful.
  *
- * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
+ * <p>Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new
+ * name. Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode
+ * list
  */
-
 @TeleOp(name = "Concept: Compass Calibration", group = "Concept")
 @Disabled
 public class ConceptCompassCalibration extends LinearOpMode {
@@ -111,10 +110,8 @@ public class ConceptCompassCalibration extends LinearOpMode {
     sleep(HOLD_TIME_MS); // Just do a sleep while we switch modes
 
     // Report whether the Calibration was successful or not.
-    if (compass.calibrationFailed()) telemetry.addData(
-      "Compass",
-      "Calibrate Failed. Try Again!"
-    ); else telemetry.addData("Compass", "Calibrate Passed.");
+    if (compass.calibrationFailed()) telemetry.addData("Compass", "Calibrate Failed. Try Again!");
+    else telemetry.addData("Compass", "Calibrate Passed.");
     telemetry.update();
   }
 }

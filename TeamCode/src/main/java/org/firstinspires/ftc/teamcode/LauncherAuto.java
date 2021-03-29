@@ -26,10 +26,7 @@ public class LauncherAuto extends LinearOpMode {
     launcher1.setPower(-1.0);
     launcher2.setPower(1.0);
     while (opModeIsActive()) {
-      if (
-        gamepad1.a &&
-        (servo.getPosition() == servoStart || servo.getPosition() == servoEnd)
-      ) {
+      if (gamepad1.a && (servo.getPosition() == servoStart || servo.getPosition() == servoEnd)) {
         if (!launch) {
           servo.setPosition(servoEnd);
           launch = true;

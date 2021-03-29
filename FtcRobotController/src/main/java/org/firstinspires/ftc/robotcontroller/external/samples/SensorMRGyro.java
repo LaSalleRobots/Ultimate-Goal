@@ -54,14 +54,16 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 @Disabled
 public class SensorMRGyro extends LinearOpMode {
 
-  /** In this sample, for illustration purposes we use two interfaces on the one gyro object.
-   * That's likely atypical: you'll probably use one or the other in any given situation,
-   * depending on what you're trying to do. {@link IntegratingGyroscope} (and it's base interface,
-   * {@link Gyroscope}) are common interfaces supported by possibly several different gyro
-   * implementations. {@link ModernRoboticsI2cGyro}, by contrast, provides functionality that
-   * is unique to the Modern Robotics gyro sensor.
+  /**
+   * In this sample, for illustration purposes we use two interfaces on the one gyro object. That's
+   * likely atypical: you'll probably use one or the other in any given situation, depending on what
+   * you're trying to do. {@link IntegratingGyroscope} (and it's base interface, {@link Gyroscope})
+   * are common interfaces supported by possibly several different gyro implementations. {@link
+   * ModernRoboticsI2cGyro}, by contrast, provides functionality that is unique to the Modern
+   * Robotics gyro sensor.
    */
   IntegratingGyroscope gyro;
+
   ModernRoboticsI2cGyro modernRoboticsI2cGyro;
 
   // A timer helps provide feedback while calibration is taking place
@@ -74,8 +76,7 @@ public class SensorMRGyro extends LinearOpMode {
 
     // Get a reference to a Modern Robotics gyro object. We use several interfaces
     // on this object to illustrate which interfaces support which functionality.
-    modernRoboticsI2cGyro =
-      hardwareMap.get(ModernRoboticsI2cGyro.class, "gyro");
+    modernRoboticsI2cGyro = hardwareMap.get(ModernRoboticsI2cGyro.class, "gyro");
     gyro = (IntegratingGyroscope) modernRoboticsI2cGyro;
     // If you're only interested int the IntegratingGyroscope interface, the following will suffice.
     // gyro = hardwareMap.get(IntegratingGyroscope.class, "gyro");
@@ -89,11 +90,7 @@ public class SensorMRGyro extends LinearOpMode {
     // Wait until the gyro calibration is complete
     timer.reset();
     while (!isStopRequested() && modernRoboticsI2cGyro.isCalibrating()) {
-      telemetry.addData(
-        "calibrating",
-        "%s",
-        Math.round(timer.seconds()) % 2 == 0 ? "|.." : "..|"
-      );
+      telemetry.addData("calibrating", "%s", Math.round(timer.seconds()) % 2 == 0 ? "|.." : "..|");
       telemetry.update();
       sleep(50);
     }
@@ -129,34 +126,31 @@ public class SensorMRGyro extends LinearOpMode {
       // about all three axes. Additionally, it internally integrates the Z axis to
       // be able to report an absolute angular Z orientation.
       AngularVelocity rates = gyro.getAngularVelocity(AngleUnit.DEGREES);
-      float zAngle = gyro.getAngularOrientation(
-        AxesReference.INTRINSIC,
-        AxesOrder.ZYX,
-        AngleUnit.DEGREES
-      )
-        .firstAngle;
+      float zAngle =
+          gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES)
+              .firstAngle;
 
       // Read administrative information from the gyro
       int zAxisOffset = modernRoboticsI2cGyro.getZAxisOffset();
       int zAxisScalingCoefficient = modernRoboticsI2cGyro.getZAxisScalingCoefficient();
 
       telemetry
-        .addLine()
-        .addData("dx", formatRate(rates.xRotationRate))
-        .addData("dy", formatRate(rates.yRotationRate))
-        .addData("dz", "%s deg/s", formatRate(rates.zRotationRate));
+          .addLine()
+          .addData("dx", formatRate(rates.xRotationRate))
+          .addData("dy", formatRate(rates.yRotationRate))
+          .addData("dz", "%s deg/s", formatRate(rates.zRotationRate));
       telemetry.addData("angle", "%s deg", formatFloat(zAngle));
       telemetry.addData("heading", "%3d deg", heading);
       telemetry.addData("integrated Z", "%3d", integratedZ);
       telemetry
-        .addLine()
-        .addData("rawX", formatRaw(rawX))
-        .addData("rawY", formatRaw(rawY))
-        .addData("rawZ", formatRaw(rawZ));
+          .addLine()
+          .addData("rawX", formatRaw(rawX))
+          .addData("rawY", formatRaw(rawY))
+          .addData("rawZ", formatRaw(rawZ));
       telemetry
-        .addLine()
-        .addData("z offset", zAxisOffset)
-        .addData("z coeff", zAxisScalingCoefficient);
+          .addLine()
+          .addData("z offset", zAxisOffset)
+          .addData("z coeff", zAxisScalingCoefficient);
       telemetry.update();
     }
   }

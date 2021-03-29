@@ -7,37 +7,36 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class RoboHelper {
 
   private ElapsedTime runtime;
 
-  //setup motors
+  // setup motors
   private DcMotor leftFront = null;
   private DcMotor rightFront = null;
   private DcMotor leftBack = null;
   private DcMotor rightBack = null;
 
-  private double fixionCoef = 1.75; //the distance the robot goes in 1 second (in feet)
+  private double fixionCoef = 1.75; // the distance the robot goes in 1 second (in feet)
 
   public double flP = 0;
   public double blP = 0;
   public double frP = 0;
   public double brP = 0;
 
-  //setup class initializer
+  // setup class initializer
   public RoboHelper(HardwareMap hardwareMap, ElapsedTime runtime) {
     this.runtime = runtime;
 
-    //setup motors
+    // setup motors
     this.leftFront = hardwareMap.get(DcMotor.class, "fL");
     this.rightFront = hardwareMap.get(DcMotor.class, "fR");
     this.leftBack = hardwareMap.get(DcMotor.class, "bL");
     this.rightBack = hardwareMap.get(DcMotor.class, "bR");
 
-    //Set Directions
+    // Set Directions
     this.leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
     this.rightFront.setDirection(DcMotorSimple.Direction.FORWARD);
     this.leftBack.setDirection(DcMotorSimple.Direction.REVERSE);

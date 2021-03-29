@@ -14,8 +14,9 @@ import org.openftc.easyopencv.OpenCvTracker;
 public class DistanceFromPaperTracker extends OpenCvTracker {
 
   /**
-   * The hand pre-calculated value of the focal length for calculating the distance using @see #computeDistance()
-   * This value can be calculated with <code>F = (P x  D) / W</code> f=focalLength P=perceivedPxCount W=actual width
+   * The hand pre-calculated value of the focal length for calculating the distance using @see
+   * #computeDistance() This value can be calculated with <code>F = (P x  D) / W</code>
+   * f=focalLength P=perceivedPxCount W=actual width
    */
   private final double focalLength = 642.9090909;
 
@@ -31,9 +32,7 @@ public class DistanceFromPaperTracker extends OpenCvTracker {
   private final ArrayList<MatOfPoint> contours = new ArrayList<>();
   private final MatOfPoint2f largestContour2f = new MatOfPoint2f();
 
-  /**
-   * The bounds of the detected piece of paper
-   */
+  /** The bounds of the detected piece of paper */
   public RotatedRect bounds = new RotatedRect();
 
   /**
@@ -52,11 +51,7 @@ public class DistanceFromPaperTracker extends OpenCvTracker {
    * @param thresholdThresh threshold for the threshold step of the pipeline
    * @param thresholdMaxVal threshold maximum value for the threshold step of the pipeline
    */
-  public DistanceFromPaperTracker(
-    double pctThreshold,
-    int thresholdThresh,
-    int thresholdMaxVal
-  ) {
+  public DistanceFromPaperTracker(double pctThreshold, int thresholdThresh, int thresholdMaxVal) {
     this.pctBoundsThreshold = pctThreshold;
     this.thresholdThresh = thresholdThresh;
     this.thresholdMaxVal = thresholdMaxVal;
@@ -72,12 +67,11 @@ public class DistanceFromPaperTracker extends OpenCvTracker {
    * @param cannyMaxThreshold canny edge detection maximum threshold for the canny step
    */
   public DistanceFromPaperTracker(
-    double pctThreshold,
-    int thresholdThresh,
-    int thresholdMaxVal,
-    int cannyMinThreshold,
-    int cannyMaxThreshold
-  ) {
+      double pctThreshold,
+      int thresholdThresh,
+      int thresholdMaxVal,
+      int cannyMinThreshold,
+      int cannyMaxThreshold) {
     this.pctBoundsThreshold = pctThreshold;
     this.thresholdThresh = thresholdThresh;
     this.thresholdMaxVal = thresholdMaxVal;
@@ -91,47 +85,33 @@ public class DistanceFromPaperTracker extends OpenCvTracker {
     Imgproc.cvtColor(input, gray, Imgproc.COLOR_RGB2GRAY);
     Imgproc.blur(gray, gray, new Size(3, 3));
     Imgproc.threshold(
-      gray,
-      threshold,
-      thresholdThresh,
-      thresholdMaxVal,
-      Imgproc.THRESH_BINARY_INV + Imgproc.THRESH_OTSU
-    );
+        gray,
+        threshold,
+        thresholdThresh,
+        thresholdMaxVal,
+        Imgproc.THRESH_BINARY_INV + Imgproc.THRESH_OTSU);
     Imgproc.Canny(threshold, edges, cannyMinThreshold, cannyMaxThreshold);
     Imgproc.findContours(
-      edges,
-      contours,
-      new Mat(),
-      Imgproc.RETR_LIST,
-      Imgproc.CHAIN_APPROX_SIMPLE
-    );
+        edges, contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
     input.copyTo(output);
-    //Imgproc.drawContours(output, contours, -1, new Scalar(225, 0, 0));
+    // Imgproc.drawContours(output, contours, -1, new Scalar(225, 0, 0));
     MatOfPoint largestContour = max();
 
     if (largestContour != null) {
       largestContour.convertTo(largestContour2f, CvType.CV_32F);
       RotatedRect newBounds = Imgproc.minAreaRect(largestContour2f);
       double sizeDifference = newBounds.size.area() / bounds.size.area();
-      if (
-        sizeDifference > pctBoundsThreshold ||
-        sizeDifference < -pctBoundsThreshold
-      ) {
+      if (sizeDifference > pctBoundsThreshold || sizeDifference < -pctBoundsThreshold) {
         bounds = newBounds;
       }
-      Imgproc.rectangle(
-        output,
-        newBounds.boundingRect(),
-        new Scalar(0, 255, 0)
-      );
+      Imgproc.rectangle(output, newBounds.boundingRect(), new Scalar(0, 255, 0));
       Imgproc.rectangle(output, bounds.boundingRect(), new Scalar(255, 0, 0));
     }
     return output;
   }
 
   /**
-   * Finds and returns the largest point in the contours.
-   * Preforms a linear search
+   * Finds and returns the largest point in the contours. Preforms a linear search
    *
    * @return MatofPoint the largest point in the contours
    * @see MatOfPoint
@@ -150,8 +130,7 @@ public class DistanceFromPaperTracker extends OpenCvTracker {
   }
 
   /**
-   * Returns the distance from the detected paper in inches
-   * Formula used is D’ = (W x F) / P
+   * Returns the distance from the detected paper in inches Formula used is D’ = (W x F) / P
    *
    * @return double the computed distance from the white paper on screen in inches
    */

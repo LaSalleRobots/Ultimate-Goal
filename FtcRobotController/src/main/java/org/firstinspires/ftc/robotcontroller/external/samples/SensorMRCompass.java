@@ -38,13 +38,14 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 
 /**
- * The {@link SensorMRCompass} op mode provides a demonstration of the
- * functionality provided by the Modern Robotics compass sensor.
+ * The {@link SensorMRCompass} op mode provides a demonstration of the functionality provided by the
+ * Modern Robotics compass sensor.
  *
- * The op mode assumes that the MR compass is configured with a name of "compass".
+ * <p>The op mode assumes that the MR compass is configured with a name of "compass".
  *
- * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
+ * <p>Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new
+ * name. Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode
+ * list
  *
  * @see <a href="http://www.modernroboticsinc.com/compass">MR Compass Sensor</a>
  */
@@ -115,10 +116,7 @@ public class SensorMRCompass extends LinearOpMode {
   protected void doTelemetry() {
     if (compass.isCalibrating()) {
       telemetry.addData(
-        "compass",
-        "calibrating %s",
-        Math.round(timer.seconds()) % 2 == 0 ? "|.." : "..|"
-      );
+          "compass", "calibrating %s", Math.round(timer.seconds()) % 2 == 0 ? "|.." : "..|");
     } else {
       // getDirection() returns a traditional compass heading in the range [0,360),
       // with values increasing in a CW direction
@@ -128,14 +126,11 @@ public class SensorMRCompass extends LinearOpMode {
       // the sensor. This is used internally to the sensor to compute its tilt and thence
       // to correct the magnetometer reading to produce tilt-corrected values in getDirection()
       Acceleration accel = compass.getAcceleration();
-      double accelMagnitude = Math.sqrt(
-        accel.xAccel *
-        accel.xAccel +
-        accel.yAccel *
-        accel.yAccel +
-        accel.zAccel *
-        accel.zAccel
-      );
+      double accelMagnitude =
+          Math.sqrt(
+              accel.xAccel * accel.xAccel
+                  + accel.yAccel * accel.yAccel
+                  + accel.zAccel * accel.zAccel);
       telemetry.addData("accel", accel);
       telemetry.addData("accel magnitude", "%.3f", accelMagnitude);
 

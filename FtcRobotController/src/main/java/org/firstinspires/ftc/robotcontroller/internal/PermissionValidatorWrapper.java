@@ -44,19 +44,19 @@ public class PermissionValidatorWrapper extends PermissionValidatorActivity {
   /*
    * The list of dangerous permissions the robot controller needs.
    */
-  protected List<String> robotControllerPermissions = new ArrayList<String>() {
-    {
-      add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-      add(Manifest.permission.READ_EXTERNAL_STORAGE);
-      add(Manifest.permission.CAMERA);
-      add(Manifest.permission.ACCESS_COARSE_LOCATION);
-      add(Manifest.permission.ACCESS_FINE_LOCATION);
-      add(Manifest.permission.READ_PHONE_STATE);
-    }
-  };
+  protected List<String> robotControllerPermissions =
+      new ArrayList<String>() {
+        {
+          add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+          add(Manifest.permission.READ_EXTERNAL_STORAGE);
+          add(Manifest.permission.CAMERA);
+          add(Manifest.permission.ACCESS_COARSE_LOCATION);
+          add(Manifest.permission.ACCESS_FINE_LOCATION);
+          add(Manifest.permission.READ_PHONE_STATE);
+        }
+      };
 
-  private static final Class startApplication =
-    FtcRobotControllerActivity.class;
+  private static final Class startApplication = FtcRobotControllerActivity.class;
 
   public String mapPermissionToExplanation(final String permission) {
     if (permission.equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {

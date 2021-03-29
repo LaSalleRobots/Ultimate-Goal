@@ -43,11 +43,12 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
  * This 2020-2021 OpMode illustrates the basics of using the TensorFlow Object Detection API to
  * determine the position of the Ultimate Goal game elements.
  *
- * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list.
+ * <p>Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new
+ * name. Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode
+ * list.
  *
- * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
- * is explained below.
+ * <p>IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as is
+ * explained below.
  */
 @TeleOp(name = "Concept: TensorFlow Object Detection Webcam", group = "Concept")
 @Disabled
@@ -69,12 +70,11 @@ public class ConceptTensorFlowObjectDetectionWebcam extends LinearOpMode {
    * Once you've obtained a license key, copy the string from the Vuforia web site
    * and paste it in to your code on the next line, between the double quotes.
    */
-  private static final String VUFORIA_KEY =
-    " -- YOUR NEW VUFORIA KEY GOES HERE  --- ";
+  private static final String VUFORIA_KEY = " -- YOUR NEW VUFORIA KEY GOES HERE  --- ";
 
   /**
-   * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
-   * localization engine.
+   * {@link #vuforia} is the variable we will use to store our instance of the Vuforia localization
+   * engine.
    */
   private VuforiaLocalizer vuforia;
 
@@ -92,17 +92,20 @@ public class ConceptTensorFlowObjectDetectionWebcam extends LinearOpMode {
     initTfod();
 
     /**
-     * Activate TensorFlow Object Detection before we wait for the start command.
-     * Do it here so that the Camera Stream window will have the TensorFlow annotations visible.
-     **/
+     * Activate TensorFlow Object Detection before we wait for the start command. Do it here so that
+     * the Camera Stream window will have the TensorFlow annotations visible.
+     */
     if (tfod != null) {
       tfod.activate();
 
       // The TensorFlow software will scale the input images from the camera to a lower resolution.
       // This can result in lower detection accuracy at longer distances (> 55cm or 22").
-      // If your target is at distance greater than 50 cm (20") you can adjust the magnification value
-      // to artificially zoom in to the center of image.  For best results, the "aspectRatio" argument
-      // should be set to the value of the images used to create the TensorFlow Object Detection model
+      // If your target is at distance greater than 50 cm (20") you can adjust the magnification
+      // value
+      // to artificially zoom in to the center of image.  For best results, the "aspectRatio"
+      // argument
+      // should be set to the value of the images used to create the TensorFlow Object Detection
+      // model
       // (typically 16/9).
       tfod.setZoom(2.5, 16.0 / 9.0);
     }
@@ -123,22 +126,17 @@ public class ConceptTensorFlowObjectDetectionWebcam extends LinearOpMode {
             // step through the list of recognitions and display boundary info.
             int i = 0;
             for (Recognition recognition : updatedRecognitions) {
+              telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
               telemetry.addData(
-                String.format("label (%d)", i),
-                recognition.getLabel()
-              );
+                  String.format("  left,top (%d)", i),
+                  "%.03f , %.03f",
+                  recognition.getLeft(),
+                  recognition.getTop());
               telemetry.addData(
-                String.format("  left,top (%d)", i),
-                "%.03f , %.03f",
-                recognition.getLeft(),
-                recognition.getTop()
-              );
-              telemetry.addData(
-                String.format("  right,bottom (%d)", i),
-                "%.03f , %.03f",
-                recognition.getRight(),
-                recognition.getBottom()
-              );
+                  String.format("  right,bottom (%d)", i),
+                  "%.03f , %.03f",
+                  recognition.getRight(),
+                  recognition.getBottom());
             }
             telemetry.update();
           }
@@ -151,9 +149,7 @@ public class ConceptTensorFlowObjectDetectionWebcam extends LinearOpMode {
     }
   }
 
-  /**
-   * Initialize the Vuforia localization engine.
-   */
+  /** Initialize the Vuforia localization engine. */
   private void initVuforia() {
     /*
      * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
@@ -168,29 +164,16 @@ public class ConceptTensorFlowObjectDetectionWebcam extends LinearOpMode {
     // Loading trackables is not necessary for the TensorFlow Object Detection engine.
   }
 
-  /**
-   * Initialize the TensorFlow Object Detection engine.
-   */
+  /** Initialize the TensorFlow Object Detection engine. */
   private void initTfod() {
-    int tfodMonitorViewId = hardwareMap.appContext
-      .getResources()
-      .getIdentifier(
-        "tfodMonitorViewId",
-        "id",
-        hardwareMap.appContext.getPackageName()
-      );
-    TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(
-      tfodMonitorViewId
-    );
+    int tfodMonitorViewId =
+        hardwareMap
+            .appContext
+            .getResources()
+            .getIdentifier("tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+    TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
     tfodParameters.minResultConfidence = 0.8f;
-    tfod =
-      ClassFactory
-        .getInstance()
-        .createTFObjectDetector(tfodParameters, vuforia);
-    tfod.loadModelFromAsset(
-      TFOD_MODEL_ASSET,
-      LABEL_FIRST_ELEMENT,
-      LABEL_SECOND_ELEMENT
-    );
+    tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
+    tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
   }
 }

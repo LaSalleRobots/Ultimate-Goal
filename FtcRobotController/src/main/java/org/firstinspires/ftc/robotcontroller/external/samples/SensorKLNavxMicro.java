@@ -53,14 +53,16 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 @Disabled
 public class SensorKLNavxMicro extends LinearOpMode {
 
-  /** In this sample, for illustration purposes we use two interfaces on the one gyro object.
-   * That's likely atypical: you'll probably use one or the other in any given situation,
-   * depending on what you're trying to do. {@link IntegratingGyroscope} (and it's base interface,
-   * {@link Gyroscope}) are common interfaces supported by possibly several different gyro
-   * implementations. {@link NavxMicroNavigationSensor}, by contrast, provides functionality that
-   * is unique to the navX Micro sensor.
+  /**
+   * In this sample, for illustration purposes we use two interfaces on the one gyro object. That's
+   * likely atypical: you'll probably use one or the other in any given situation, depending on what
+   * you're trying to do. {@link IntegratingGyroscope} (and it's base interface, {@link Gyroscope})
+   * are common interfaces supported by possibly several different gyro implementations. {@link
+   * NavxMicroNavigationSensor}, by contrast, provides functionality that is unique to the navX
+   * Micro sensor.
    */
   IntegratingGyroscope gyro;
+
   NavxMicroNavigationSensor navxMicro;
 
   // A timer helps provide feedback while calibration is taking place
@@ -81,11 +83,7 @@ public class SensorKLNavxMicro extends LinearOpMode {
     // Wait until the gyro calibration is complete
     timer.reset();
     while (navxMicro.isCalibrating()) {
-      telemetry.addData(
-        "calibrating",
-        "%s",
-        Math.round(timer.seconds()) % 2 == 0 ? "|.." : "..|"
-      );
+      telemetry.addData("calibrating", "%s", Math.round(timer.seconds()) % 2 == 0 ? "|.." : "..|");
       telemetry.update();
       Thread.sleep(50);
     }
@@ -103,27 +101,20 @@ public class SensorKLNavxMicro extends LinearOpMode {
       // about all three axes. Additionally, it internally integrates the Z axis to
       // be able to report an absolute angular Z orientation.
       AngularVelocity rates = gyro.getAngularVelocity(AngleUnit.DEGREES);
-      Orientation angles = gyro.getAngularOrientation(
-        AxesReference.INTRINSIC,
-        AxesOrder.ZYX,
-        AngleUnit.DEGREES
-      );
+      Orientation angles =
+          gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
       telemetry
-        .addLine()
-        .addData("dx", formatRate(rates.xRotationRate))
-        .addData("dy", formatRate(rates.yRotationRate))
-        .addData("dz", "%s deg/s", formatRate(rates.zRotationRate));
+          .addLine()
+          .addData("dx", formatRate(rates.xRotationRate))
+          .addData("dy", formatRate(rates.yRotationRate))
+          .addData("dz", "%s deg/s", formatRate(rates.zRotationRate));
 
       telemetry
-        .addLine()
-        .addData("heading", formatAngle(angles.angleUnit, angles.firstAngle))
-        .addData("roll", formatAngle(angles.angleUnit, angles.secondAngle))
-        .addData(
-          "pitch",
-          "%s deg",
-          formatAngle(angles.angleUnit, angles.thirdAngle)
-        );
+          .addLine()
+          .addData("heading", formatAngle(angles.angleUnit, angles.firstAngle))
+          .addData("roll", formatAngle(angles.angleUnit, angles.secondAngle))
+          .addData("pitch", "%s deg", formatAngle(angles.angleUnit, angles.thirdAngle));
       telemetry.update();
 
       idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop

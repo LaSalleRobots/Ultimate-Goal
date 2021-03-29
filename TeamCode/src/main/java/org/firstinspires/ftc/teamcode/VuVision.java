@@ -20,11 +20,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 public class VuVision {
 
-  // IMPORTANT:  For Phone Camera, set 1) the camera source and 2) the orientation, based on how your phone is mounted:
+  // IMPORTANT:  For Phone Camera, set 1) the camera source and 2) the orientation, based on how
+  // your phone is mounted:
   // 1) Camera Source.  Valid choices are:  BACK (behind screen) or FRONT (selfie side)
-  // 2) Phone Orientation. Choices are: PHONE_IS_PORTRAIT = true (portrait) or PHONE_IS_PORTRAIT = false (landscape)
+  // 2) Phone Orientation. Choices are: PHONE_IS_PORTRAIT = true (portrait) or PHONE_IS_PORTRAIT =
+  // false (landscape)
   //
-  // NOTE: If you are running on a CONTROL HUB, with only one USB WebCam, you must select CAMERA_CHOICE = BACK; and PHONE_IS_PORTRAIT = false;
+  // NOTE: If you are running on a CONTROL HUB, with only one USB WebCam, you must select
+  // CAMERA_CHOICE = BACK; and PHONE_IS_PORTRAIT = false;
   //
   private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
   private static final boolean PHONE_IS_PORTRAIT = false;
@@ -42,12 +45,14 @@ public class VuVision {
    * and paste it in to your code on the next line, between the double quotes.
    */
   private static final String VUFORIA_KEY =
-    "ATEunI3/////AAABmTcVGyhDpk/vjQi7sL+G3bkNZLIZNtw/qLByk8N+aFHflTAH7VSKoR4Cmzmgq62zIwg4ijmn/bzp1aCFu3u3S2aGfK0fBzUmddZV8n1+vO2sA4RRALRfeGnv/5UWQHXcqPg1Jz3yysRBhu4ur0g7FadQJq0sTfcoWWsELgQYAeFwsZSl+ktrswOc+SUyhrlJUDJijBL4y2kH4/3aeGYsQhQRVW/0EvSmbPuwMa+6Yo7u1f13PKEOdPWbJYybeGPjybwKrptzgTyNLhSoFqIFiUA8Ft1UD9IalVhGlEsHy6KBcWkvCxGJZBvANancvdTJ0O2Ux2pYsAllxQ+h2oR925ND/oeK5Mgno13LfBKkrm2B";
+      "ATEunI3/////AAABmTcVGyhDpk/vjQi7sL+G3bkNZLIZNtw/qLByk8N+aFHflTAH7VSKoR4Cmzmgq62zIwg4ijmn/bzp1aCFu3u3S2aGfK0fBzUmddZV8n1+vO2sA4RRALRfeGnv/5UWQHXcqPg1Jz3yysRBhu4ur0g7FadQJq0sTfcoWWsELgQYAeFwsZSl+ktrswOc+SUyhrlJUDJijBL4y2kH4/3aeGYsQhQRVW/0EvSmbPuwMa+6Yo7u1f13PKEOdPWbJYybeGPjybwKrptzgTyNLhSoFqIFiUA8Ft1UD9IalVhGlEsHy6KBcWkvCxGJZBvANancvdTJ0O2Ux2pYsAllxQ+h2oR925ND/oeK5Mgno13LfBKkrm2B";
 
-  // Since ImageTarget trackables use mm to specifiy their dimensions, we must use mm for all the physical dimension.
+  // Since ImageTarget trackables use mm to specifiy their dimensions, we must use mm for all the
+  // physical dimension.
   // We will define some constants and conversions here
   private static final float mmPerInch = 25.4f;
-  private static final float mmTargetHeight = (6) * mmPerInch; // the height of the center of the target image above the floor
+  private static final float mmTargetHeight =
+      (6) * mmPerInch; // the height of the center of the target image above the floor
 
   // Constants for perimeter targets
   private static final float halfField = 72 * mmPerInch;
@@ -74,16 +79,12 @@ public class VuVision {
      * We can pass Vuforia the handle to a camera preview resource (on the RC phone);
      * If no camera monitor is desired, use the parameter-less constructor instead (commented out below).
      */
-    int cameraMonitorViewId = hardwareMap.appContext
-      .getResources()
-      .getIdentifier(
-        "cameraMonitorViewId",
-        "id",
-        hardwareMap.appContext.getPackageName()
-      );
-    VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(
-      cameraMonitorViewId
-    );
+    int cameraMonitorViewId =
+        hardwareMap
+            .appContext
+            .getResources()
+            .getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+    VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
 
     // VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
@@ -110,59 +111,50 @@ public class VuVision {
     VuforiaTrackable frontWallTarget = targetsUltimateGoal.get(4);
     frontWallTarget.setName("Front Wall Target");
 
-    // For convenience, gather together all the trackable objects in one easily-iterable collection */
+    // For convenience, gather together all the trackable objects in one easily-iterable collection
+    // */
     allTrackables = new ArrayList<VuforiaTrackable>();
     allTrackables.addAll(targetsUltimateGoal);
 
     /**
-     * In order for localization to work, we need to tell the system where each target is on the field, and
-     * where the phone resides on the robot.  These specifications are in the form of <em>transformation matrices.</em>
-     * Transformation matrices are a central, important concept in the math here involved in localization.
-     * See <a href="https://en.wikipedia.org/wiki/Transformation_matrix">Transformation Matrix</a>
-     * for detailed information. Commonly, you'll encounter transformation matrices as instances
-     * of the {@link OpenGLMatrix} class.
+     * In order for localization to work, we need to tell the system where each target is on the
+     * field, and where the phone resides on the robot. These specifications are in the form of
+     * <em>transformation matrices.</em> Transformation matrices are a central, important concept in
+     * the math here involved in localization. See <a
+     * href="https://en.wikipedia.org/wiki/Transformation_matrix">Transformation Matrix</a> for
+     * detailed information. Commonly, you'll encounter transformation matrices as instances of the
+     * {@link OpenGLMatrix} class.
      *
-     * If you are standing in the Red Alliance Station looking towards the center of the field,
-     *     - The X axis runs from your left to the right. (positive from the center to the right)
-     *     - The Y axis runs from the Red Alliance Station towards the other side of the field
-     *       where the Blue Alliance Station is. (Positive is from the center, towards the BlueAlliance station)
-     *     - The Z axis runs from the floor, upwards towards the ceiling.  (Positive is above the floor)
+     * <p>If you are standing in the Red Alliance Station looking towards the center of the field, -
+     * The X axis runs from your left to the right. (positive from the center to the right) - The Y
+     * axis runs from the Red Alliance Station towards the other side of the field where the Blue
+     * Alliance Station is. (Positive is from the center, towards the BlueAlliance station) - The Z
+     * axis runs from the floor, upwards towards the ceiling. (Positive is above the floor)
      *
-     * Before being transformed, each target image is conceptually located at the origin of the field's
-     *  coordinate system (the center of the field), facing up.
+     * <p>Before being transformed, each target image is conceptually located at the origin of the
+     * field's coordinate system (the center of the field), facing up.
      */
 
-    //Set the position of the perimeter targets with relation to origin (center of field)
+    // Set the position of the perimeter targets with relation to origin (center of field)
     redAllianceTarget.setLocation(
-      OpenGLMatrix
-        .translation(0, -halfField, mmTargetHeight)
-        .multiplied(
-          Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, 180)
-        )
-    );
+        OpenGLMatrix.translation(0, -halfField, mmTargetHeight)
+            .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, 180)));
 
-    //blueAllianceTarget.setLocation(OpenGLMatrix
+    // blueAllianceTarget.setLocation(OpenGLMatrix
     //        .translation(0, halfField, mmTargetHeight)
     //        .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, 0)));
     frontWallTarget.setLocation(
-      OpenGLMatrix
-        .translation(-halfField, 0, mmTargetHeight)
-        .multiplied(
-          Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, 90)
-        )
-    );
+        OpenGLMatrix.translation(-halfField, 0, mmTargetHeight)
+            .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, 90)));
 
-    // The tower goal targets are located a quarter field length from the ends of the back perimeter wall.
-    //blueTowerGoalTarget.setLocation(OpenGLMatrix
+    // The tower goal targets are located a quarter field length from the ends of the back perimeter
+    // wall.
+    // blueTowerGoalTarget.setLocation(OpenGLMatrix
     //        .translation(halfField, quadField, mmTargetHeight)
     //        .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0 , -90)));
     redTowerGoalTarget.setLocation(
-      OpenGLMatrix
-        .translation(halfField, -quadField, mmTargetHeight)
-        .multiplied(
-          Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, -90)
-        )
-    );
+        OpenGLMatrix.translation(halfField, -quadField, mmTargetHeight)
+            .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, -90)));
 
     //
     // Create a transformation matrix describing where the phone is on the robot.
@@ -171,10 +163,12 @@ public class VuVision {
     // Lock it into Portrait for these numbers to work.
     //
     // Info:  The coordinate frame for the robot looks the same as the field.
-    // The robot's "forward" direction is facing out along X axis, with the LEFT side facing out along the Y axis.
+    // The robot's "forward" direction is facing out along X axis, with the LEFT side facing out
+    // along the Y axis.
     // Z is UP on the robot.  This equates to a bearing angle of Zero degrees.
     //
-    // The phone starts out lying flat, with the screen facing Up and with the physical top of the phone
+    // The phone starts out lying flat, with the screen facing Up and with the physical top of the
+    // phone
     // pointing to the LEFT side of the Robot.
     // The two examples below assume that the camera is facing forward out the front of the robot.
 
@@ -191,33 +185,25 @@ public class VuVision {
     }
 
     // Next, translate the camera lens to where it is on the robot.
-    // In this example, it is centered (left to right), but forward of the middle of the robot, and above ground level.
-    final float CAMERA_FORWARD_DISPLACEMENT = 4.0f * mmPerInch; // eg: Camera is 4 Inches in front of robot center
-    final float CAMERA_VERTICAL_DISPLACEMENT = 8.0f * mmPerInch; // eg: Camera is 8 Inches above ground
+    // In this example, it is centered (left to right), but forward of the middle of the robot, and
+    // above ground level.
+    final float CAMERA_FORWARD_DISPLACEMENT =
+        4.0f * mmPerInch; // eg: Camera is 4 Inches in front of robot center
+    final float CAMERA_VERTICAL_DISPLACEMENT =
+        8.0f * mmPerInch; // eg: Camera is 8 Inches above ground
     final float CAMERA_LEFT_DISPLACEMENT = 0; // eg: Camera is ON the robot's center line
 
-    OpenGLMatrix robotFromCamera = OpenGLMatrix
-      .translation(
-        CAMERA_FORWARD_DISPLACEMENT,
-        CAMERA_LEFT_DISPLACEMENT,
-        CAMERA_VERTICAL_DISPLACEMENT
-      )
-      .multiplied(
-        Orientation.getRotationMatrix(
-          EXTRINSIC,
-          YZX,
-          DEGREES,
-          phoneYRotate,
-          phoneZRotate,
-          phoneXRotate
-        )
-      );
+    OpenGLMatrix robotFromCamera =
+        OpenGLMatrix.translation(
+                CAMERA_FORWARD_DISPLACEMENT, CAMERA_LEFT_DISPLACEMENT, CAMERA_VERTICAL_DISPLACEMENT)
+            .multiplied(
+                Orientation.getRotationMatrix(
+                    EXTRINSIC, YZX, DEGREES, phoneYRotate, phoneZRotate, phoneXRotate));
 
-    /**  Let all the trackable listeners know where the phone is.  */
+    /** Let all the trackable listeners know where the phone is. */
     for (VuforiaTrackable trackable : allTrackables) {
-      (
-        (VuforiaTrackableDefaultListener) trackable.getListener()
-      ).setPhoneInformation(robotFromCamera, parameters.cameraDirection);
+      ((VuforiaTrackableDefaultListener) trackable.getListener())
+          .setPhoneInformation(robotFromCamera, parameters.cameraDirection);
     }
   }
 
@@ -228,18 +214,14 @@ public class VuVision {
   public void tick() {
     targetVisible = false;
     for (VuforiaTrackable trackable : allTrackables) {
-      if (
-        ((VuforiaTrackableDefaultListener) trackable.getListener()).isVisible()
-      ) {
+      if (((VuforiaTrackableDefaultListener) trackable.getListener()).isVisible()) {
         visibleTarget = trackable.getName();
         targetVisible = true;
 
         // getUpdatedRobotLocation() will return null if no new information is available since
         // the last time that call was made, or if the trackable is not currently visible.
         OpenGLMatrix robotLocationTransform =
-          (
-            (VuforiaTrackableDefaultListener) trackable.getListener()
-          ).getUpdatedRobotLocation();
+            ((VuforiaTrackableDefaultListener) trackable.getListener()).getUpdatedRobotLocation();
         if (robotLocationTransform != null) {
           lastLocation = robotLocationTransform;
         }
@@ -256,20 +238,15 @@ public class VuVision {
       robotPosition.z = translation.get(2) / mmPerInch;
 
       // express the rotation of the robot in degrees.
-      Orientation rotation = Orientation.getOrientation(
-        lastLocation,
-        EXTRINSIC,
-        XYZ,
-        DEGREES
-      );
+      Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
       robotPosition.heading = rotation.thirdAngle;
       /*telemetry.addData(
-                    "Rot (deg)",
-                    "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f",
-                    rotation.firstAngle,
-                    rotation.secondAngle,
-                    rotation.thirdAngle
-            );*/
+              "Rot (deg)",
+              "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f",
+              rotation.firstAngle,
+              rotation.secondAngle,
+              rotation.thirdAngle
+      );*/
     }
   }
 }

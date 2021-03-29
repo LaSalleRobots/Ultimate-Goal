@@ -35,19 +35,18 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
 
 /**
- * This OpMode uses the common Pushbot hardware class to define the devices on the robot.
- * All device access is managed through the HardwarePushbot class.
- * The code is structured as a LinearOpMode
+ * This OpMode uses the common Pushbot hardware class to define the devices on the robot. All device
+ * access is managed through the HardwarePushbot class. The code is structured as a LinearOpMode
  *
- * This particular OpMode executes a POV Game style Teleop for a PushBot
- * In this mode the left stick moves the robot FWD and back, the Right stick turns left and right.
- * It raises and lowers the claw using the Gampad Y and A buttons respectively.
- * It also opens and closes the claws slowly using the left and right Bumper buttons.
+ * <p>This particular OpMode executes a POV Game style Teleop for a PushBot In this mode the left
+ * stick moves the robot FWD and back, the Right stick turns left and right. It raises and lowers
+ * the claw using the Gampad Y and A buttons respectively. It also opens and closes the claws slowly
+ * using the left and right Bumper buttons.
  *
- * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
+ * <p>Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new
+ * name. Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode
+ * list
  */
-
 @TeleOp(name = "Pushbot: Teleop POV", group = "Pushbot")
 @Disabled
 public class PushbotTeleopPOV_Linear extends LinearOpMode {
@@ -79,8 +78,10 @@ public class PushbotTeleopPOV_Linear extends LinearOpMode {
 
     // run until the end of the match (driver presses STOP)
     while (opModeIsActive()) {
-      // Run wheels in POV mode (note: The joystick goes negative when pushed forwards, so negate it)
-      // In this mode the Left stick moves the robot fwd and back, the Right stick turns left and right.
+      // Run wheels in POV mode (note: The joystick goes negative when pushed forwards, so negate
+      // it)
+      // In this mode the Left stick moves the robot fwd and back, the Right stick turns left and
+      // right.
       // This way it's also easy to just drive straight, or just turn.
       drive = -gamepad1.left_stick_y;
       turn = gamepad1.right_stick_x;
@@ -101,9 +102,8 @@ public class PushbotTeleopPOV_Linear extends LinearOpMode {
       robot.rightDrive.setPower(right);
 
       // Use gamepad left & right Bumpers to open and close the claw
-      if (gamepad1.right_bumper) clawOffset += CLAW_SPEED; else if (
-        gamepad1.left_bumper
-      ) clawOffset -= CLAW_SPEED;
+      if (gamepad1.right_bumper) clawOffset += CLAW_SPEED;
+      else if (gamepad1.left_bumper) clawOffset -= CLAW_SPEED;
 
       // Move both servos to new position.  Assume servos are mirror image of each other.
       clawOffset = Range.clip(clawOffset, -0.5, 0.5);
@@ -111,11 +111,9 @@ public class PushbotTeleopPOV_Linear extends LinearOpMode {
       robot.rightClaw.setPosition(robot.MID_SERVO - clawOffset);
 
       // Use gamepad buttons to move arm up (Y) and down (A)
-      if (gamepad1.y) robot.leftArm.setPower(robot.ARM_UP_POWER); else if (
-        gamepad1.a
-      ) robot.leftArm.setPower(
-        robot.ARM_DOWN_POWER
-      ); else robot.leftArm.setPower(0.0);
+      if (gamepad1.y) robot.leftArm.setPower(robot.ARM_UP_POWER);
+      else if (gamepad1.a) robot.leftArm.setPower(robot.ARM_DOWN_POWER);
+      else robot.leftArm.setPower(0.0);
 
       // Send telemetry message to signify robot running;
       telemetry.addData("claw", "Offset = %.2f", clawOffset);
