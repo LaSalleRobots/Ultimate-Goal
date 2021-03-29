@@ -1,21 +1,17 @@
-name: Prettier for Java Code
+name: Format
 
 on:
   push:
     branches: [master]
 
 jobs:
-  cleanup_tasks:
-    runs-on: ubuntu-latest
 
+  formatting:
+    runs-on: ubuntu-latest
     steps:
-    - name: Cloning the repository
-      uses: actions/checkout@v1
-      with:
-        fetch-depth: 1
-    - name: Prettify the JS Code
-      uses: lwerner-lshigh/prettier_action_java@v1.1.1
-      with:
-        branch: master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v2 # v2 minimum required
+      - uses: axel-op/googlejavaformat-action@v3
+        with:
+          args: "--skip-sorting-imports --replace"
+          # Recommended if you use MacOS:
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
