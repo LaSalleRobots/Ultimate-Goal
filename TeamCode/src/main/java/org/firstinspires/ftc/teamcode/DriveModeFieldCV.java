@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -8,6 +9,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 
 @Config
 @TeleOp(name = "Driver Controlled (Field Centric [CV])", group = "Driving")
+@Disabled
 public class DriveModeFieldCV extends LinearOpMode {
 
   private VuVision vision = null;
