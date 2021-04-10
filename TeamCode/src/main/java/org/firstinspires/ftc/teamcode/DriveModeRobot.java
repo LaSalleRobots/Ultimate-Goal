@@ -51,7 +51,8 @@ public class DriveModeRobot extends LinearOpMode {
 
     while (opModeIsActive()) {
       // Mechanum movement input code
-      flP = getGamepadMoveMagnitude(gamepad1)
+      flP =
+          getGamepadMoveMagnitude(gamepad1)
                   * Math.sin(getGamepadMoveAngle(gamepad1) + (Math.PI / 4))
               + getGamepadTurnMagnitude(gamepad1);
       fL.setPower(flP);

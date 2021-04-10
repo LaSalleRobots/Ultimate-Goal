@@ -41,9 +41,7 @@ public class DriveModeFieldIMU extends LinearOpMode {
   }
 
   private double getRobotHeading() {
-    angles =
-            imu.getAngularOrientation(
-                    AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+    angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
     return angles.firstAngle;
   }
 
@@ -53,13 +51,12 @@ public class DriveModeFieldIMU extends LinearOpMode {
     parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
     parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
     parameters.calibrationDataFile =
-            "BNO055IMUCalibration.json"; // see the calibration sample opmode
+        "BNO055IMUCalibration.json"; // see the calibration sample opmode
     parameters.loggingEnabled = true;
     parameters.loggingTag = "IMU";
     parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
     imu = hardwareMap.get(BNO055IMU.class, "imu");
     imu.initialize(parameters);
-
 
     DcMotor fL = hardwareMap.get(DcMotor.class, "fL");
     DcMotor bL = hardwareMap.get(DcMotor.class, "bL");
@@ -93,9 +90,11 @@ public class DriveModeFieldIMU extends LinearOpMode {
       telemetry.update();
     }
   }
+
   String formatAngle(AngleUnit angleUnit, double angle) {
     return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
   }
+
   String formatDegrees(double degrees) {
     return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
   }
