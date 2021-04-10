@@ -26,26 +26,32 @@ public class DriveModeRobot extends LinearOpMode {
 
   @Override
   public void runOpMode() throws InterruptedException {
-    DcMotor fL = hardwareMap.get(DcMotor.class, "fL");
-    DcMotor bL = hardwareMap.get(DcMotor.class, "bL");
-    DcMotor fR = hardwareMap.get(DcMotor.class, "fR");
-    DcMotor bR = hardwareMap.get(DcMotor.class, "bR");
+    DcMotor fL = hardwareMap.get(DcMotor.class, "fL"); // Front Left
+    DcMotor bL = hardwareMap.get(DcMotor.class, "bL"); // Back  Left
+    DcMotor fR = hardwareMap.get(DcMotor.class, "fR"); // Front Right
+    DcMotor bR = hardwareMap.get(DcMotor.class, "bR"); // Back  Right
+
+    DcMotor intake = hardwareMap.get(DcMotor.class, "intake"); // Intake Motor
+    DcMotor launcherLeft = hardwareMap.get(DcMotor.class, "launchL"); // Launch Left
+    DcMotor launcherRight = hardwareMap.get(DcMotor.class, "launchR"); // Launch Right
+
+    Servo trigger = hardwareMap.get(Servo.class, "trigger"); // Launch ring pusher
 
     fL.setDirection(DcMotorSimple.Direction.REVERSE);
     bL.setDirection(DcMotorSimple.Direction.REVERSE);
     fR.setDirection(DcMotorSimple.Direction.FORWARD);
     bR.setDirection(DcMotorSimple.Direction.FORWARD);
 
-    waitForStart();
-
     double flP = 0;
     double blP = 0;
     double frP = 0;
     double brP = 0;
 
+    waitForStart();
+
     while (opModeIsActive()) {
-      flP =
-          getGamepadMoveMagnitude(gamepad1)
+      // Mechanum movement input code
+      flP = getGamepadMoveMagnitude(gamepad1)
                   * Math.sin(getGamepadMoveAngle(gamepad1) + (Math.PI / 4))
               + getGamepadTurnMagnitude(gamepad1);
       fL.setPower(flP);
@@ -64,11 +70,14 @@ public class DriveModeRobot extends LinearOpMode {
                   * Math.sin(getGamepadMoveAngle(gamepad1) - (Math.PI / 4))
               - getGamepadTurnMagnitude(gamepad1);
       bR.setPower(brP);
+
+      // Mechanum movement telemetry
       telemetry.addData("Front Left", flP);
       telemetry.addData("Front Right", frP);
       telemetry.addData("Back Left", blP);
       telemetry.addData("Back Right", brP);
 
+      // Other input code
       if (gamepad1.a) {
         intake.setPower(1);
       } else if (gamepad1.b) {
@@ -77,6 +86,7 @@ public class DriveModeRobot extends LinearOpMode {
         intake.setPower(0);
       }
 
+      // right trigger logic (linear trigger logic)
       if (gamepad1.right_trigger > 0.2) {
         launcherLeft.setPower(-1);
         launcherRight.setPower(1);
