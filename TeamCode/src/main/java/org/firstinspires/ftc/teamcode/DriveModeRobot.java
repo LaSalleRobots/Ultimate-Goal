@@ -6,13 +6,14 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.Servo;
 
 @Config
 @TeleOp(name = "Driver Controlled (Robot Centric)", group = "Tests")
 public class DriveModeRobot extends LinearOpMode {
 
   private double getGamepadMoveMagnitude(Gamepad gamepad) {
-    return -Math.hypot(gamepad.left_stick_x, gamepad.left_stick_y);
+    return -Math.hypot(gamepad.left_stick_x, gamepad.left_stick_y) * 1.5;
   }
 
   private double getGamepadTurnMagnitude(Gamepad gamepad) {
@@ -67,6 +68,29 @@ public class DriveModeRobot extends LinearOpMode {
       telemetry.addData("Front Right", frP);
       telemetry.addData("Back Left", blP);
       telemetry.addData("Back Right", brP);
+
+      if (gamepad1.a) {
+        intake.setPower(1);
+      } else if (gamepad1.b) {
+        intake.setPower(-1);
+      } else {
+        intake.setPower(0);
+      }
+
+      if (gamepad1.right_trigger > 0.2) {
+        launcherLeft.setPower(-1);
+        launcherRight.setPower(1);
+        if (gamepad1.right_trigger > 0.8) {
+          trigger.setPosition(1);
+        } else {
+          trigger.setPosition(0);
+        }
+      } else {
+        launcherLeft.setPower(0);
+        launcherRight.setPower(0);
+        trigger.setPosition(0);
+      }
+
       telemetry.update();
     }
   }
