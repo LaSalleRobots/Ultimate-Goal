@@ -11,6 +11,7 @@ import org.openftc.easyopencv.*;
  * OpenCvInternalCamera} interface
  */
 @TeleOp(name = "OpenCV Paper Detection Demo Algorithm", group = "AI")
+@Disabled
 public class DistanceFromPaper extends LinearOpMode {
 
   @Override
