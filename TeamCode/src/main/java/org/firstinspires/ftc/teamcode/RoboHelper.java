@@ -52,7 +52,7 @@ public class RoboHelper {
     return Math.atan2(y, x);
   }
 
-  public void calculateDirections(double x, double y, double turn) {
+  public RoboHelper calculateDirections(double x, double y, double turn) {
     flP = magnitude(x, y) * Math.sin(angle(x, y) + (Math.PI / 4)) + turn;
     blP = magnitude(x, y) * Math.sin(angle(x, y) - (Math.PI / 4)) + turn;
     frP = magnitude(x, y) * Math.sin(angle(x, y) + (Math.PI / 4)) - turn;
