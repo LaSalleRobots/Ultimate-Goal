@@ -68,14 +68,14 @@ public class RoboHelper {
     }
   }
 
-  public void powerOff() {
+  public RoboHelper powerOff() {
     leftFront.setPower(0);
     rightFront.setPower(0);
     leftBack.setPower(0);
     rightBack.setPower(0);
   }
 
-  public void applyPower() {
+  public RoboHelper applyPower() {
     leftFront.setPower(flP);
     rightFront.setPower(frP);
     leftBack.setPower(blP);
