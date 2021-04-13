@@ -19,8 +19,6 @@ public class RingGoal extends LinearOpMode {
 
       telemetry.addData("Predicted Position", position);
       telemetry.update();
-
-      
     }
   }
 }
