@@ -25,16 +25,14 @@ public class RingGoal extends LinearOpMode {
 
       roboHelper.calculateDirections(0, -1, 0);
       if (RingDetector.Position.A == position) {
-        roboHelper.runFor(oneSquareTime*3);
-      }
-      else if (RingDetector.Position.B == position) {
-        roboHelper.runFor(oneSquareTime*4);
+        roboHelper.runFor(oneSquareTime * 3);
+      } else if (RingDetector.Position.B == position) {
+        roboHelper.runFor(oneSquareTime * 4);
         roboHelper.calculateDirections(-1, 0, 0);
         roboHelper.runFor(oneSquareTime);
+      } else if (RingDetector.Position.C == position) {
+        roboHelper.runFor(oneSquareTime * 5);
       }
-      else if (RingDetector.Position.C == position) {
-        roboHelper.runFor(oneSquareTime*5);
-      } 
     }
   }
 }
