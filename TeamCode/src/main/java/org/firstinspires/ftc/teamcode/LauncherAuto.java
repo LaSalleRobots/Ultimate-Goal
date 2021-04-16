@@ -8,6 +8,7 @@ import java.util.*;
 
 @Config
 @TeleOp(name = "LauncherAlwaysOn (Reading)", group = "Tests")
+@Disabled
 public class LauncherAuto extends LinearOpMode {
 
   public static double servoStart = 0.0;
